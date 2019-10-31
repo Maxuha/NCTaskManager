@@ -70,6 +70,7 @@ public class Task {
     public Task(final String pTitle, final int pTime) {
         this.title = pTitle;
         this.time = pTime;
+        endTime = pTime;
         repeated = false;
     }
 
@@ -100,6 +101,7 @@ public class Task {
      */
     public void setTime(final int pTime) {
         this.time = pTime;
+        endTime = pTime;
     }
 
     /**
@@ -173,6 +175,21 @@ public class Task {
     }
 
     /**
+     * @return object to string
+     */
+    @Override
+    public String toString() {
+        return "Task{" + "title='" + title + '\''
+                + ", active=" + active
+                + ", repeated=" + repeated
+                + ", time=" + time
+                + ", startTime=" + startTime
+                + ", endTime=" + endTime
+                + ", repeatInterval=" + repeatInterval
+                + '}';
+    }
+
+    /**
      * @param current is current time run task.
      * @return next time run task.
      * if task not active @return -1.
@@ -192,13 +209,11 @@ public class Task {
             return time;
         }
 
-        if (current >= startTime) {
-            for (int i = startTime; i < current; i += repeatInterval) {
-                time += repeatInterval;
-            }
-            return time;
-        } else {
-            return startTime;
+        time = startTime;
+        for (int i = startTime; i < current; i += repeatInterval) {
+            time += repeatInterval;
         }
+
+        return time;
     }
 }
