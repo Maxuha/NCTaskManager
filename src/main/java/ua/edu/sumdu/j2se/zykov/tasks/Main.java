@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.studentLastName.tasks;
+package ua.edu.sumdu.j2se.zykov.tasks;
 
 /**
  * class main - class start point program.
