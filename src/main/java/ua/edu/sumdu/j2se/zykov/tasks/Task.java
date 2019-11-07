@@ -217,7 +217,6 @@ public class Task {
                 temp += repeatInterval;
             }
         }
-
         return temp;
     }
 }
