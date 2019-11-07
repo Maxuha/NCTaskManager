@@ -88,7 +88,8 @@ public class LinkedTaskList extends AbstractTaskList {
      * @return object is array task from date to date
      */
     public AbstractTaskList incoming(final int from, final int to) {
-        abstractTaskList = TaskListFactory.createTaskList(ListTypes.types.LINKED);
+        abstractTaskList = TaskListFactory.
+                createTaskList(ListTypes.types.LINKED);
         super.incoming(from, to);
         return abstractTaskList;
     }

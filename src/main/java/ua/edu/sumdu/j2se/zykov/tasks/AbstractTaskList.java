@@ -1,7 +1,5 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
-import java.util.Arrays;
-
 public abstract class AbstractTaskList {
     /**
      * @variable tasks is array Task.
@@ -12,13 +10,13 @@ public abstract class AbstractTaskList {
     /**
      * @param task is add task to array.
      */
-    public abstract void add(final Task task);
+    public abstract void add(Task task);
 
     /**
      * @param task is delete task from array
      * @return is true if delete access
      */
-    public abstract boolean remove(final Task task);
+    public abstract boolean remove(Task task);
 
     /**
      * @return length array tasks.
@@ -29,7 +27,8 @@ public abstract class AbstractTaskList {
      * @param index is number element from array
      * @return Task from array
      */
-    public abstract Task getTask(final int index) throws IndexOutOfBoundsException;
+    public abstract Task getTask(int index)
+            throws IndexOutOfBoundsException;
 
     /**
      *

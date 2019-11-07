@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * class is create list from array.
  */
-public class ArrayTaskList extends AbstractTaskList{
+public class ArrayTaskList extends AbstractTaskList {
 
     /**
      * @param task is add task to array.
@@ -87,7 +87,8 @@ public class ArrayTaskList extends AbstractTaskList{
      */
     @Override
     public AbstractTaskList incoming(final int from, final int to) {
-        abstractTaskList = TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+        abstractTaskList = TaskListFactory
+                .createTaskList(ListTypes.types.ARRAY);
         super.incoming(from, to);
         return abstractTaskList;
     }

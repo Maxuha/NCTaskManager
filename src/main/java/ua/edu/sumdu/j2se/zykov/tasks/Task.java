@@ -67,7 +67,8 @@ public class Task {
      * @param pTitle is title current task.
      * @param pTime is time current task.
      */
-    public Task(final String pTitle, final int pTime) throws IllegalArgumentException {
+    public Task(final String pTitle, final int pTime)
+            throws IllegalArgumentException {
         if (pTime < 0) {
             throw new IllegalArgumentException();
         }
@@ -209,7 +210,8 @@ public class Task {
      * if task not repeated @return current time.
      */
     public int nextTimeAfter(final int current) {
-        if (current >= endTime || current + repeatInterval >= endTime || !active) {
+        if (current >= endTime || current + repeatInterval >= endTime
+                || !active) {
             return -1;
         }
 
