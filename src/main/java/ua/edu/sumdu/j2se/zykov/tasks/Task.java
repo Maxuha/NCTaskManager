@@ -67,7 +67,10 @@ public class Task {
      * @param pTitle is title current task.
      * @param pTime is time current task.
      */
-    public Task(final String pTitle, final int pTime) {
+    public Task(final String pTitle, final int pTime) throws IllegalArgumentException {
+        if (pTime < 0) {
+            throw new IllegalArgumentException();
+        }
         this.title = pTitle;
         this.time = pTime;
         startTime = pTime;
@@ -82,7 +85,10 @@ public class Task {
      * @param interval is repeat interval time current task.
      */
     public Task(final String pTitle, final int start, final int end,
-                final int interval) {
+                final int interval) throws IllegalArgumentException {
+        if (start < 0 && end < 0 && interval < 0) {
+            throw new IllegalArgumentException();
+        }
         this.title = pTitle;
         startTime = start;
         endTime = end;

@@ -2,10 +2,7 @@ package ua.edu.sumdu.j2se.zykov.tasks;
 
 import java.util.Arrays;
 
-/**
- * class is create list from array.
- */
-public class ArrayTaskList extends AbstractTaskList{
+public class LinkedTaskList extends AbstractTaskList {
 
     /**
      * @param task is add task to array.
@@ -51,8 +48,13 @@ public class ArrayTaskList extends AbstractTaskList{
      * @param index is number element from array
      * @return Task from array
      */
-    public Task getTask(final int index) throws IndexOutOfBoundsException {
-        return tasks[index];
+    public Task getTask(final int index) {
+        try {
+            return tasks[index];
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("This task does not exist");
+        }
+        return null;
     }
 
     /**
@@ -67,7 +69,7 @@ public class ArrayTaskList extends AbstractTaskList{
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ArrayTaskList that = (ArrayTaskList) o;
+        LinkedTaskList that = (LinkedTaskList) o;
         return Arrays.equals(tasks, that.tasks);
     }
 
@@ -85,9 +87,8 @@ public class ArrayTaskList extends AbstractTaskList{
      * @param to is to date
      * @return object is array task from date to date
      */
-    @Override
     public AbstractTaskList incoming(final int from, final int to) {
-        abstractTaskList = new ArrayTaskList();
+        abstractTaskList = new LinkedTaskList();
         super.incoming(from, to);
         return abstractTaskList;
     }
