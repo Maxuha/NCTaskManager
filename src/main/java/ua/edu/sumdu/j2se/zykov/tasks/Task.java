@@ -70,6 +70,7 @@ public class Task {
     public Task(final String pTitle, final int pTime) {
         this.title = pTitle;
         this.time = pTime;
+        startTime = pTime;
         endTime = pTime;
         repeated = false;
     }
@@ -86,6 +87,7 @@ public class Task {
         startTime = start;
         endTime = end;
         repeatInterval = interval;
+        time = startTime;
         repeated = true;
     }
 
@@ -101,7 +103,10 @@ public class Task {
      */
     public void setTime(final int pTime) {
         this.time = pTime;
+        startTime = pTime;
         endTime = pTime;
+        repeatInterval = 0;
+        repeated = false;
     }
 
     /**
@@ -134,6 +139,8 @@ public class Task {
         startTime = start;
         endTime = end;
         repeatInterval = interval;
+        time = startTime;
+        repeated = true;
     }
 
     /**
@@ -196,12 +203,7 @@ public class Task {
      * if task not repeated @return current time.
      */
     public int nextTimeAfter(final int current) {
-        if (current > endTime) {
-            active = false;
-            repeated = false;
-        }
-
-        if (!active) {
+        if (current >= endTime || current + repeatInterval >= endTime || !active) {
             return -1;
         }
 
@@ -209,11 +211,13 @@ public class Task {
             return time;
         }
 
-        time = startTime;
-        for (int i = startTime; i < current; i += repeatInterval) {
-            time += repeatInterval;
+        int temp = startTime;
+        for (int i = startTime; i <= current; i += repeatInterval) {
+            if (i < endTime - repeatInterval) {
+                temp += repeatInterval;
+            }
         }
 
-        return time;
+        return temp;
     }
 }
