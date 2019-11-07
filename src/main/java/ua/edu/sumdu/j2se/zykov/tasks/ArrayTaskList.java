@@ -87,7 +87,7 @@ public class ArrayTaskList extends AbstractTaskList{
      */
     @Override
     public AbstractTaskList incoming(final int from, final int to) {
-        abstractTaskList = new ArrayTaskList();
+        abstractTaskList = TaskListFactory.createTaskList(ListTypes.types.ARRAY);
         super.incoming(from, to);
         return abstractTaskList;
     }
