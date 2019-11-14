@@ -1,19 +1,38 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class LinkedTaskList extends AbstractTaskList {
+
+    private Node head;
+    private int count;
 
     /**
      * @param task is add task to array.
      */
     public void add(final Task task) {
-        Task[] temp = tasks;
-        tasks = new Task[temp.length + 1];
-        for (int i = 0; i < temp.length; i++) {
-            tasks[i] = temp[i];
+        if (task == null)
+            return;
+
+        if (head == null)
+        {
+            head = new Node();
+            head.task = task;
+            head.next = null;
         }
-        tasks[tasks.length - 1] = task;
+        else
+        {
+            Node toAdd = new Node();
+            toAdd.task = task;
+            Node current = head;
+            while (current.next != null)
+            {
+                current = current.next;
+            }
+            current.next = toAdd;
+        }
+        count++;
     }
 
     /**
@@ -21,16 +40,20 @@ public class LinkedTaskList extends AbstractTaskList {
      * @return is true if delete access
      */
     public boolean remove(final Task task) {
-        for (int i = 0; i < tasks.length; i++) {
-            if (tasks[i] == task) {
-                Task[] temp = tasks;
-                tasks = new Task[temp.length - 1];
-                for (int j = 0; j < i; j++) {
-                    tasks[j] = temp[j];
-                }
-                for (int j = i + 1; j < temp.length; j++) {
-                    tasks[j - 1] = temp[j];
-                }
+        if (task == null)
+            return false;
+
+        if (head.task.equals(task)) {
+            head = head.next;
+            count--;
+            return true;
+        }
+
+        while (head.next != null) {
+            Node node = head.next;
+            if (node.task.equals(task)) {
+                node = node.next;
+                count--;
                 return true;
             }
         }
@@ -41,7 +64,7 @@ public class LinkedTaskList extends AbstractTaskList {
      * @return length array tasks.
      */
     public int size() {
-        return tasks.length;
+        return count;
     }
 
     /**
@@ -49,12 +72,11 @@ public class LinkedTaskList extends AbstractTaskList {
      * @return Task from array
      */
     public Task getTask(final int index) {
-        try {
-            return tasks[index];
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("This task does not exist");
+        Node node = head;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
         }
-        return null;
+        return node.task;
     }
 
     /**
