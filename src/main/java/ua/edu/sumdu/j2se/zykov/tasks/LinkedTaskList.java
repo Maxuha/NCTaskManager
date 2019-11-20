@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.Objects;
 
 public class LinkedTaskList extends AbstractTaskList {
 
@@ -40,24 +39,29 @@ public class LinkedTaskList extends AbstractTaskList {
      * @return is true if delete access
      */
     public boolean remove(final Task task) {
-        if (task == null)
+        if (task == null || head == null)
             return false;
 
         if (head.task.equals(task)) {
             head = head.next;
             count--;
             return true;
-        }
-
-        while (head.next != null) {
-            Node node = head.next;
-            if (node.task.equals(task)) {
-                node = node.next;
+        } else {
+            Node temp = head;
+            Node tempPre = head;
+            boolean matched = false;
+            while (!(matched = temp.task.equals(task)) && temp.next != null) {
+                tempPre = temp;
+                temp = temp.next;
+            }
+            if (matched) {
+                tempPre.next = temp.next;
                 count--;
                 return true;
+            } else {
+                return false;
             }
         }
-        return false;
     }
 
     /**
@@ -84,15 +88,12 @@ public class LinkedTaskList extends AbstractTaskList {
      * @return is true if this object = o
      */
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         LinkedTaskList that = (LinkedTaskList) o;
-        return Arrays.equals(tasks, that.tasks);
+        return count == that.count &&
+                head.equals(that.head);
     }
 
     /**
@@ -100,7 +101,7 @@ public class LinkedTaskList extends AbstractTaskList {
      */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(tasks);
+        return Objects.hash(head, count);
     }
 
     /**

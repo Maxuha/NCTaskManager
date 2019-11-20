@@ -1,11 +1,14 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
-public abstract class AbstractTaskList {
+import java.util.Iterator;
+
+public abstract class AbstractTaskList implements Iterable<Task> {
     /**
      * @variable tasks is array Task.
      */
     protected Task[] tasks = new Task[0];
     protected AbstractTaskList abstractTaskList;
+    protected int nTasks;
 
     /**
      * @param task is add task to array.
@@ -46,5 +49,37 @@ public abstract class AbstractTaskList {
             }
         }
         return abstractTaskList;
+    }
+
+    private class KeysIterator<Task> implements Iterator<Task> {
+        int nextTask = 0;
+
+        public boolean hasNext() {
+            return nextTask < nTasks;
+        }
+
+        public Task next() {
+            Task result = (Task) tasks[nextTask];
+            nextTask++;
+            return result;
+        }
+
+        public void remove() {
+            if (nextTask < nTasks - 1) {
+                System.arraycopy(tasks, nextTask + 1,
+                        tasks, nextTask, nTasks - nextTask - 1);
+            }
+            nTasks--;
+        }
+    }
+
+    @Override
+    public Iterator<Task> iterator() {
+        return new KeysIterator<Task>();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
