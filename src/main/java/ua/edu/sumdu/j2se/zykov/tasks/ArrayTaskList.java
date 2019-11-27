@@ -33,7 +33,6 @@ public class ArrayTaskList extends AbstractTaskList {
             if (tasks[i].equals(task)) {
                 Task[] temp = tasks;
                 count--;
-                System.arraycopy(temp, 0, tasks, 0, i);
                 System.arraycopy(temp, i+1, tasks, i, count - i);
                 return true;
             }
