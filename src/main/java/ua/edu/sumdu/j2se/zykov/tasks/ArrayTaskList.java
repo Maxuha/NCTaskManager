@@ -14,7 +14,6 @@ public class ArrayTaskList extends AbstractTaskList {
      * @param task is add task to array.
      */
     public void add(Task task) {
-        System.out.println("add");
         if (count == tasks.length) {
             Task[] temp = tasks;
             tasks = new Task[tasks.length * k];
