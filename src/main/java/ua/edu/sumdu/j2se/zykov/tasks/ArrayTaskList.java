@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -13,6 +14,7 @@ public class ArrayTaskList extends AbstractTaskList {
      * @param task is add task to array.
      */
     public void add(Task task) {
+        System.out.println("add");
         if (count == tasks.length) {
             Task[] temp = tasks;
             tasks = new Task[tasks.length * k];
@@ -30,10 +32,9 @@ public class ArrayTaskList extends AbstractTaskList {
         for (int i = 0; i < count; i++) {
             if (tasks[i].equals(task)) {
                 Task[] temp = tasks;
-                for (int j = i + 1; j < temp.length; j++) {
-                    tasks[j - 1] = temp[j];
-                }
                 count--;
+                System.arraycopy(temp, 0, tasks, 0, i);
+                System.arraycopy(temp, i+1, tasks, i, count - i);
                 return true;
             }
         }
