@@ -13,6 +13,6 @@ private Main() {
 * start point is program.
 * @param args as array arguments run program.
 */
-public static void main(final String[] args) {
+public static void main(String[] args) {
 }
 }

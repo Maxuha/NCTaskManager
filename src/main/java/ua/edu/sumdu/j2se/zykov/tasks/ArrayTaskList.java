@@ -7,33 +7,33 @@ import java.util.Arrays;
  */
 public class ArrayTaskList extends AbstractTaskList {
 
+    private final int k = 10;
+
     /**
      * @param task is add task to array.
      */
-    public void add(final Task task) {
-        Task[] temp = tasks;
-        tasks = new Task[temp.length + 1];
-        for (int i = 0; i < temp.length; i++) {
-            tasks[i] = temp[i];
+    public void add(Task task) {
+        if (count == tasks.length) {
+            Task[] temp = tasks;
+            tasks = new Task[tasks.length * k];
+            tasks = Arrays.copyOf(temp, temp.length);
         }
-        tasks[tasks.length - 1] = task;
+        tasks[count] = task;
+        count++;
     }
 
     /**
      * @param task is delete task from array
      * @return is true if delete access
      */
-    public boolean remove(final Task task) {
-        for (int i = 0; i < tasks.length; i++) {
-            if (tasks[i] == task) {
+    public boolean remove(Task task) {
+        for (int i = 0; i < count; i++) {
+            if (tasks[i].equals(task)) {
                 Task[] temp = tasks;
-                tasks = new Task[temp.length - 1];
-                for (int j = 0; j < i; j++) {
-                    tasks[j] = temp[j];
-                }
                 for (int j = i + 1; j < temp.length; j++) {
                     tasks[j - 1] = temp[j];
                 }
+                count--;
                 return true;
             }
         }
@@ -44,14 +44,14 @@ public class ArrayTaskList extends AbstractTaskList {
      * @return length array tasks.
      */
     public int size() {
-        return tasks.length;
+        return count;
     }
 
     /**
      * @param index is number element from array
      * @return Task from array
      */
-    public Task getTask(final int index) throws IndexOutOfBoundsException {
+    public Task getTask(int index) throws IndexOutOfBoundsException {
         return tasks[index];
     }
 
@@ -60,7 +60,7 @@ public class ArrayTaskList extends AbstractTaskList {
      * @return is true if this object = o
      */
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -86,9 +86,8 @@ public class ArrayTaskList extends AbstractTaskList {
      * @return object is array task from date to date
      */
     @Override
-    public AbstractTaskList incoming(final int from, final int to) {
-        abstractTaskList = TaskListFactory
-                .createTaskList(ListTypes.types.ARRAY);
+    public AbstractTaskList incoming(int from, int to) {
+        super.setAbstractTaskList(new ArrayTaskList());
         super.incoming(from, to);
         return abstractTaskList;
     }

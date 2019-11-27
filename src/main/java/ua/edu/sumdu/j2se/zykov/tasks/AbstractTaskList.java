@@ -3,12 +3,15 @@ package ua.edu.sumdu.j2se.zykov.tasks;
 import java.util.Iterator;
 
 public abstract class AbstractTaskList implements Iterable<Task> {
+
     /**
      * @variable tasks is array Task.
      */
-    protected Task[] tasks = new Task[0];
+    protected Node head;
+    protected Task[] tasks = new Task[10];
     protected AbstractTaskList abstractTaskList;
     protected int nTasks;
+    protected int count;
 
     /**
      * @param task is add task to array.
@@ -33,6 +36,10 @@ public abstract class AbstractTaskList implements Iterable<Task> {
     public abstract Task getTask(int index)
             throws IndexOutOfBoundsException;
 
+    public void setAbstractTaskList(AbstractTaskList abstractTaskList) {
+        this.abstractTaskList = abstractTaskList;
+    }
+
     /**
      *
      * @param from is from date
@@ -40,14 +47,29 @@ public abstract class AbstractTaskList implements Iterable<Task> {
      * @return object is array task from date to date
      */
     public AbstractTaskList incoming(final int from, final int to) {
-        for (int i = 0; i < tasks.length; i++) {
-            if (tasks[i].nextTimeAfter(from) != -1
-                    && tasks[i].getEndTime() <= to) {
-                if (tasks[i].isActive()) {
-                    abstractTaskList.add(tasks[i]);
+        if (abstractTaskList instanceof ArrayTaskList) {
+            for (int i = 0; i < count; i++) {
+                if (tasks[i].nextTimeAfter(from) != -1
+                        && tasks[i].getEndTime() <= to
+                        && tasks[i].isActive()) {
+                        abstractTaskList.add(tasks[i]);
                 }
             }
+        } else if (abstractTaskList instanceof LinkedTaskList) {
+            Node current = head;
+
+            while (current != null) {
+                if (current.task.nextTimeAfter(from) != -1
+                        && current.task.getEndTime() <= to
+                        && current.task.isActive()) {
+                    abstractTaskList.add(current.task);
+                }
+                current = current.next;
+            }
+        } else {
+            //do nothing
         }
+
         return abstractTaskList;
     }
 
@@ -55,7 +77,7 @@ public abstract class AbstractTaskList implements Iterable<Task> {
         int nextTask = 0;
 
         public boolean hasNext() {
-            return nextTask < nTasks;
+            return nextTask < count;
         }
 
         public Task next() {

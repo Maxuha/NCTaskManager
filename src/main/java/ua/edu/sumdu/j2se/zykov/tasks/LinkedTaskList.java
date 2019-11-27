@@ -4,8 +4,6 @@ import java.util.Objects;
 
 public class LinkedTaskList extends AbstractTaskList {
 
-    private Node head;
-    private int count;
 
     /**
      * @param task is add task to array.
@@ -104,15 +102,16 @@ public class LinkedTaskList extends AbstractTaskList {
         return Objects.hash(head, count);
     }
 
+
     /**
      *
      * @param from is from date
      * @param to is to date
      * @return object is array task from date to date
      */
-    public AbstractTaskList incoming(final int from, final int to) {
-        abstractTaskList = TaskListFactory.
-                createTaskList(ListTypes.types.LINKED);
+    @Override
+    public AbstractTaskList incoming(int from, int to) {
+        super.setAbstractTaskList(new LinkedTaskList());
         super.incoming(from, to);
         return abstractTaskList;
     }
