@@ -1,6 +1,5 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -9,6 +8,7 @@ import java.util.Arrays;
 public class ArrayTaskList extends AbstractTaskList {
 
     private final int k = 10;
+    private Task[] tasks = new Task[10];
 
     /**
      * @param task is add task to array.
@@ -78,16 +78,5 @@ public class ArrayTaskList extends AbstractTaskList {
         return Arrays.hashCode(tasks);
     }
 
-    /**
-     *
-     * @param from is from date
-     * @param to is to date
-     * @return object is array task from date to date
-     */
-    @Override
-    public AbstractTaskList incoming(int from, int to) {
-        super.setAbstractTaskList(new ArrayTaskList());
-        super.incoming(from, to);
-        return abstractTaskList;
-    }
+
 }
