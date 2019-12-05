@@ -5,9 +5,9 @@ import java.util.Arrays;
 /**
  * class is create list from array.
  */
-public class ArrayTaskList extends AbstractTaskList {
+public class ArrayTaskList extends AbstractTaskList implements Cloneable {
 
-    private final int k = 10;
+    private final int k = 2;
     private Task[] tasks = new Task[10];
 
     /**
@@ -67,7 +67,20 @@ public class ArrayTaskList extends AbstractTaskList {
             return false;
         }
         ArrayTaskList that = (ArrayTaskList) o;
-        return Arrays.equals(tasks, that.tasks);
+        /*boolean isArray = Arrays.equals(tasks, that.tasks);
+        if (isArray) {
+            if (count != that.count) {
+                isArray = false;
+            }
+        }
+        if (isArray) {
+            for (int i = 0; i < count; i++) {
+                if (!tasks[i].equals(that.tasks[i])) {
+                    isArray = false;
+                }
+            }
+        }*/
+        return count == that.count && Arrays.equals(tasks, that.tasks);
     }
 
     /**
@@ -78,5 +91,16 @@ public class ArrayTaskList extends AbstractTaskList {
         return Arrays.hashCode(tasks);
     }
 
+    @Override
+    public ArrayTaskList clone() throws CloneNotSupportedException {
+        return (ArrayTaskList) super.clone();
+    }
 
+    @Override
+    public String toString() {
+        return "ArrayTaskList{" +
+                "tasks=" + Arrays.toString(tasks) +
+                ", count=" + count +
+                '}';
+    }
 }

@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * class Task - describe Task.
  */
-public class Task {
+public class Task implements Cloneable {
     /**
      * title is name task.
      */
@@ -67,7 +67,7 @@ public class Task {
      * @param pTitle is title current task.
      * @param pTime is time current task.
      */
-    public Task(final String pTitle, final int pTime)
+    public Task(String pTitle, int pTime)
             throws IllegalArgumentException {
         if (pTime < 0) {
             throw new IllegalArgumentException();
@@ -85,8 +85,8 @@ public class Task {
      * @param end is end time current task.
      * @param interval is repeat interval time current task.
      */
-    public Task(final String pTitle, final int start, final int end,
-                final int interval) throws IllegalArgumentException {
+    public Task(String pTitle, int start, int end,
+                int interval) throws IllegalArgumentException {
         if (start < 0 && end < 0 && interval < 0) {
             throw new IllegalArgumentException();
         }
@@ -108,7 +108,7 @@ public class Task {
     /**
      * @param pTime is time current task.
      */
-    public void setTime(final int pTime) {
+    public void setTime(int pTime) {
         this.time = pTime;
         startTime = pTime;
         endTime = pTime;
@@ -142,7 +142,7 @@ public class Task {
      * @param end is end time current task.
      * @param interval is repeat interval time current task.
      */
-    public void setTime(final int start, final int end, final int interval) {
+    public void setTime(int start, int end, int interval) {
         startTime = start;
         endTime = end;
         repeatInterval = interval;
@@ -157,12 +157,17 @@ public class Task {
         return repeated;
     }
 
+    @Override
+    public Task clone() throws CloneNotSupportedException {
+        return (Task) super.clone();
+    }
+
     /**
      * @param o is object equals
      * @return is true if call object = o else false
      */
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -209,7 +214,7 @@ public class Task {
      * if task not active @return -1.
      * if task not repeated @return current time.
      */
-    public int nextTimeAfter(final int current) {
+    public int nextTimeAfter(int current) {
         if (current >= endTime || current + repeatInterval >= endTime
                 || !active) {
             return -1;

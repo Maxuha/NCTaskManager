@@ -2,11 +2,9 @@ package ua.edu.sumdu.j2se.zykov.tasks;
 
 import java.util.Iterator;
 
-public abstract class AbstractTaskList {
+public abstract class AbstractTaskList implements Iterable<Task> {
 
-    //protected int nTasks;
     protected int count;
-   // Iterator<Task> iterator;
 
     /**
      * @param task is add task to array.
@@ -56,40 +54,40 @@ public abstract class AbstractTaskList {
         return abstractTaskList;
     }
 
-    /*int nextTask = 0;
     @Override
     public Iterator<Task> iterator() {
-        System.out.println("sjfnds");
-        Iterator<Task> iterator = new Iterator<Task>() {
+        return new Iterator<Task>() {
+            private int currentIndex = -1;
             @Override
             public boolean hasNext() {
-                return nextTask < count;
+                return currentIndex < count-1;
             }
 
             @Override
-            public Task next() {
-
-                Task result = (Task) tasks[nextTask];
-                nextTask++;
-                return result;
-            }
-
-            @Override
-            public void remove() {
-                if (nextTask < count) {
-                    Task[] temp = (Task[]) tasks;
-                    // tasks = new ua.edu.sumdu.j2se.zykov.tasks.Task[temp.length-1];
-                    System.arraycopy(temp, nextTask + 1,
-                            tasks, nextTask, count - 1);
+            public Task next() throws IllegalStateException {
+                if (!hasNext()) {
+                    throw new IllegalStateException("Ent a list");
+                } else {
+                    return getTask(++currentIndex);
                 }
-                nextTask--;
+            }
+
+            @Override
+            public void remove() throws IllegalStateException {
+                if (!hasNext()) {
+                    throw new IllegalStateException("End a list");
+                } else {
+                    try {
+                        if (AbstractTaskList.this.remove(getTask(currentIndex))) {
+                            currentIndex--;
+                        } else {
+                            throw new IllegalStateException();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        throw new IllegalStateException(e);
+                    }
+                }
             }
         };
-        return iterator;
     }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }*/
 }

@@ -2,14 +2,14 @@ package ua.edu.sumdu.j2se.zykov.tasks;
 
 import java.util.Objects;
 
-public class LinkedTaskList extends AbstractTaskList {
+public class LinkedTaskList extends AbstractTaskList implements Cloneable {
 
     private Node head;
 
     /**
      * @param task is add task to array.
      */
-    public void add(final Task task) {
+    public void add(Task task) {
         if (task == null)
             return;
 
@@ -24,8 +24,7 @@ public class LinkedTaskList extends AbstractTaskList {
             Node toAdd = new Node();
             toAdd.task = task;
             Node current = head;
-            while (current.next != null)
-            {
+            while (current.next != null) {
                 current = current.next;
             }
             current.next = toAdd;
@@ -37,7 +36,7 @@ public class LinkedTaskList extends AbstractTaskList {
      * @param task is delete task from array
      * @return is true if delete access
      */
-    public boolean remove(final Task task) {
+    public boolean remove(Task task) {
         if (task == null || head == null)
             return false;
 
@@ -48,7 +47,7 @@ public class LinkedTaskList extends AbstractTaskList {
         } else {
             Node temp = head;
             Node tempPre = head;
-            boolean matched = false;
+            boolean matched;
             while (!(matched = temp.task.equals(task)) && temp.next != null) {
                 tempPre = temp;
                 temp = temp.next;
@@ -74,7 +73,10 @@ public class LinkedTaskList extends AbstractTaskList {
      * @param index is number element from array
      * @return Task from array
      */
-    public Task getTask(final int index) {
+    public Task getTask(int index) {
+        if (index < 0) {
+            return null;
+        }
         Node node = head;
         for (int i = 0; i < index; i++) {
             node = node.next;
@@ -91,8 +93,17 @@ public class LinkedTaskList extends AbstractTaskList {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LinkedTaskList that = (LinkedTaskList) o;
-        return count == that.count &&
-                head.equals(that.head);
+        boolean isEquals = count == that.count;
+        Node current = head;
+        Node thatCurrent = that.head;
+        while (current != null && thatCurrent != null) {
+            if (!current.task.equals(thatCurrent.task)) {
+                isEquals = false;
+            }
+            current = current.next;
+            thatCurrent = thatCurrent.next;
+        }
+        return isEquals;
     }
 
     /**
@@ -100,8 +111,19 @@ public class LinkedTaskList extends AbstractTaskList {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(head, count);
+        return Objects.hash(head);
     }
 
+    @Override
+    public LinkedTaskList clone() throws CloneNotSupportedException {
+        return (LinkedTaskList) super.clone();
+    }
 
+    @Override
+    public String toString() {
+        return "LinkedTaskList{" +
+                "head=" + head +
+                ", count=" + count +
+                '}';
+    }
 }
