@@ -2,7 +2,7 @@ package ua.edu.sumdu.j2se.zykov.tasks;
 
 import java.util.Objects;
 
-public class LinkedTaskList extends AbstractTaskList implements Cloneable {
+public class LinkedTaskList extends AbstractTaskList {
 
     private Node head;
 
@@ -94,14 +94,11 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
         if (o == null || getClass() != o.getClass()) return false;
         LinkedTaskList that = (LinkedTaskList) o;
         boolean isEquals = count == that.count;
-        Node current = head;
-        Node thatCurrent = that.head;
-        while (current != null && thatCurrent != null) {
-            if (!current.task.equals(thatCurrent.task)) {
+        for (int i = 0; i < count; i++) {
+            if (!getTask(i).equals(getTask(i))) {
                 isEquals = false;
+                break;
             }
-            current = current.next;
-            thatCurrent = thatCurrent.next;
         }
         return isEquals;
     }
@@ -111,12 +108,17 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(head);
+        return head.task.getTime() + head.task.getEndTime() + head.task.getRepeatInterval() + head.task.getStartTime() + head.task.getTitle().hashCode();
     }
 
     @Override
-    public LinkedTaskList clone() throws CloneNotSupportedException {
-        return (LinkedTaskList) super.clone();
+    public LinkedTaskList clone() {
+        LinkedTaskList copy = (LinkedTaskList) TaskListFactory.createTaskList(ListTypes.types.LINKED);
+        if (copy != null) {
+            copy.head = head;
+            copy.count = count;
+        }
+        return copy;
     }
 
     @Override

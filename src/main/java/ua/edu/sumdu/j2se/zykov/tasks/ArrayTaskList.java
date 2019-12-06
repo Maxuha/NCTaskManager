@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * class is create list from array.
  */
-public class ArrayTaskList extends AbstractTaskList implements Cloneable {
+public class ArrayTaskList extends AbstractTaskList {
 
     private final int k = 2;
     private Task[] tasks = new Task[10];
@@ -60,27 +60,10 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         ArrayTaskList that = (ArrayTaskList) o;
-        /*boolean isArray = Arrays.equals(tasks, that.tasks);
-        if (isArray) {
-            if (count != that.count) {
-                isArray = false;
-            }
-        }
-        if (isArray) {
-            for (int i = 0; i < count; i++) {
-                if (!tasks[i].equals(that.tasks[i])) {
-                    isArray = false;
-                }
-            }
-        }*/
-        return count == that.count && Arrays.equals(tasks, that.tasks);
+        return Arrays.equals(tasks, that.tasks);
     }
 
     /**
@@ -92,8 +75,13 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
     }
 
     @Override
-    public ArrayTaskList clone() throws CloneNotSupportedException {
-        return (ArrayTaskList) super.clone();
+    public ArrayTaskList clone() {
+        ArrayTaskList copy = (ArrayTaskList) TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+        if (copy != null) {
+            copy.tasks = tasks.clone();
+            copy.count = count;
+        }
+        return copy;
     }
 
     @Override
