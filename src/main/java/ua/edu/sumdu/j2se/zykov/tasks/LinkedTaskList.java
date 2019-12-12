@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
-import java.util.Objects;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.stream.Stream;
 
 public class LinkedTaskList extends AbstractTaskList {
 
@@ -108,7 +110,7 @@ public class LinkedTaskList extends AbstractTaskList {
      */
     @Override
     public int hashCode() {
-        return head.task.getTime() + head.task.getEndTime() + head.task.getRepeatInterval() + head.task.getStartTime() + head.task.getTitle().hashCode();
+        return head.task.getTime().hashCode() + head.task.getEndTime().hashCode() + head.task.getRepeatInterval() + head.task.getStartTime().hashCode() + head.task.getTitle().hashCode();
     }
 
     @Override
@@ -127,5 +129,16 @@ public class LinkedTaskList extends AbstractTaskList {
                 "head=" + head +
                 ", count=" + count +
                 '}';
+    }
+
+    @Override
+    public Stream<Task> getStream() {
+        LinkedList linkedList = new LinkedList();
+        Iterator<Task> iterator = iterator();
+        while (iterator.hasNext()) {
+            linkedList.add(iterator.next());
+        }
+
+        return linkedList.stream();
     }
 }

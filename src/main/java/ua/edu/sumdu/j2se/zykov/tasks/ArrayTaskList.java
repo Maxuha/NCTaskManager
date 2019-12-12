@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * class is create list from array.
@@ -90,5 +91,10 @@ public class ArrayTaskList extends AbstractTaskList {
                 "tasks=" + Arrays.toString(tasks) +
                 ", count=" + count +
                 '}';
+    }
+
+    @Override
+    public Stream<Task> getStream() {
+        return Arrays.stream(tasks);
     }
 }
