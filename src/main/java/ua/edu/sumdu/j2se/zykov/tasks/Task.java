@@ -1,5 +1,8 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.TemporalAmount;
 import java.util.Objects;
 
 /**
@@ -21,15 +24,15 @@ public class Task implements Cloneable {
     /**
      * time is run task.
      */
-    private int time;
+    private LocalDateTime time;
     /**
      * startTime is start to time run task.
      */
-    private int startTime;
+    private LocalDateTime startTime;
     /**
      * endTime is end to time run task.
      */
-    private int endTime;
+    private LocalDateTime endTime;
     /**
      * repeatInterval is interval repeated to time run task.
      */
@@ -43,10 +46,10 @@ public class Task implements Cloneable {
     }
 
     /**
-     * @param pTitle is title current task.
+     * @param title is title current task.
      */
-    public void setTitle(final String pTitle) {
-        this.title = pTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
@@ -57,40 +60,41 @@ public class Task implements Cloneable {
     }
 
     /**
-     * @param pActive is active current task.
+     * @param active is active current task.
      */
-    public void setActive(final boolean pActive) {
-        this.active = pActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
-     * @param pTitle is title current task.
-     * @param pTime is time current task.
+     * @param title is title current task.
+     * @param time is time current task.
      */
-    public Task(String pTitle, int pTime)
+    public Task(String title, LocalDateTime time)
             throws IllegalArgumentException {
-        if (pTime < 0) {
+        if (time == null) {
             throw new IllegalArgumentException();
         }
-        this.title = pTitle;
-        this.time = pTime;
-        startTime = pTime;
-        endTime = pTime;
+        this.title = title;
+        this.time = time;
+        startTime = time;
+        endTime = time;
+        repeatInterval = 0;
         repeated = false;
     }
 
     /**
-     * @param pTitle is title current task.
+     * @param title is title current task.
      * @param start is start time current task.
      * @param end is end time current task.
      * @param interval is repeat interval time current task.
      */
-    public Task(String pTitle, int start, int end,
+    public Task(String title, LocalDateTime start, LocalDateTime end,
                 int interval) throws IllegalArgumentException {
-        if (start < 0 && end < 0 && interval < 0) {
+        if (start == null && end == null && interval <= 0) {
             throw new IllegalArgumentException();
         }
-        this.title = pTitle;
+        this.title = title;
         startTime = start;
         endTime = end;
         repeatInterval = interval;
@@ -101,17 +105,17 @@ public class Task implements Cloneable {
     /**
      * @return time current task.
      */
-    public int getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
     /**
-     * @param pTime is time current task.
+     * @param time is time current task.
      */
-    public void setTime(int pTime) {
-        this.time = pTime;
-        startTime = pTime;
-        endTime = pTime;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+        startTime = time;
+        endTime = time;
         repeatInterval = 0;
         repeated = false;
     }
@@ -119,14 +123,14 @@ public class Task implements Cloneable {
     /**
      * @return start time current task.
      */
-    public int getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
     /**
      * @return end time current task.
      */
-    public int getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
@@ -142,7 +146,7 @@ public class Task implements Cloneable {
      * @param end is end time current task.
      * @param interval is repeat interval time current task.
      */
-    public void setTime(int start, int end, int interval) {
+    public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
         startTime = start;
         endTime = end;
         repeatInterval = interval;
@@ -211,25 +215,28 @@ public class Task implements Cloneable {
     /**
      * @param current is current time run task.
      * @return next time run task.
-     * if task not active @return -1.
+     * if task not active @return null.
      * if task not repeated @return current time.
      */
-    public int nextTimeAfter(int current) {
-        if (current >= endTime || current + repeatInterval >= endTime
-                || !active) {
-            return -1;
+    public LocalDateTime nextTimeAfter(LocalDateTime current) {
+        System.out.println(startTime);
+        if (!endTime.isAfter(current) || !active) {
+            return null;
         }
 
         if (!repeated) {
             return time;
         }
 
-        int temp = startTime;
-        for (int i = startTime; i <= current; i += repeatInterval) {
-            if (i < endTime - repeatInterval) {
-                temp += repeatInterval;
-            }
+        LocalDateTime temp = startTime;
+
+        while (!temp.isAfter(current)) {
+            temp = temp.plusSeconds(repeatInterval);
         }
-        return temp;
+        if (temp.isAfter(endTime)) {
+            return null;
+        } else {
+            return temp;
+        }
     }
 }

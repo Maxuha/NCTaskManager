@@ -30,27 +30,6 @@ public abstract class AbstractTaskList implements Iterable<Task> {
     public abstract Task getTask(int index)
             throws IndexOutOfBoundsException;
 
-    /**
-     *
-     * @param from is from date
-     * @param to is to date
-     * @return object is array task from date to date
-     */
-    public AbstractTaskList incoming(int from, int to) {
-        AbstractTaskList abstractTaskList;
-        if (this.getClass() == ArrayTaskList.class) {
-            abstractTaskList = new ArrayTaskList();
-        } else {
-            abstractTaskList = new LinkedTaskList();
-        }
-
-        getStream().filter(task -> task != null && task.nextTimeAfter(from) != -1
-                && task.getEndTime() <= to
-                && task.isActive()).forEach(abstractTaskList::add);
-
-        return abstractTaskList;
-    }
-
     @Override
     public Iterator<Task> iterator() {
         return new Iterator<Task>() {
