@@ -44,13 +44,9 @@ public abstract class AbstractTaskList implements Iterable<Task> {
             abstractTaskList = new LinkedTaskList();
         }
 
-        for (int i = 0; i < count; i++) {
-            if (this.getTask(i) != null && this.getTask(i).nextTimeAfter(from) != -1
-                    && this.getTask(i).getEndTime() <= to
-                    && this.getTask(i).isActive()) {
-                abstractTaskList.add(this.getTask(i));
-            }
-        }
+        getStream().filter(task -> task != null && task.nextTimeAfter(from) != -1
+                && task.getEndTime() <= to
+                && task.isActive()).forEach(abstractTaskList::add);
 
         return abstractTaskList;
     }
