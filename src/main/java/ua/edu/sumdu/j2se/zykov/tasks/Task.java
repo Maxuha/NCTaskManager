@@ -219,7 +219,6 @@ public class Task implements Cloneable {
      * if task not repeated @return current time.
      */
     public LocalDateTime nextTimeAfter(LocalDateTime current) {
-        System.out.println(startTime);
         if (!endTime.isAfter(current) || !active) {
             return null;
         }
@@ -233,6 +232,7 @@ public class Task implements Cloneable {
         while (!temp.isAfter(current)) {
             temp = temp.plusSeconds(repeatInterval);
         }
+
         if (temp.isAfter(endTime)) {
             return null;
         } else {

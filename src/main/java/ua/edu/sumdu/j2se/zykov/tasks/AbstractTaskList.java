@@ -32,11 +32,11 @@ public abstract class AbstractTaskList implements Iterable<Task> {
 
     @Override
     public Iterator<Task> iterator() {
+        final int[] currentIndex = {-1};
         return new Iterator<Task>() {
-            private int currentIndex = -1;
             @Override
             public boolean hasNext() {
-                return currentIndex < count-1;
+                return currentIndex[0] < count-1;
             }
 
             @Override
@@ -44,30 +44,24 @@ public abstract class AbstractTaskList implements Iterable<Task> {
                 if (!hasNext()) {
                     throw new IllegalStateException("Ent a list");
                 } else {
-                    return getTask(++currentIndex);
+                    return getTask(++currentIndex[0]);
                 }
             }
 
             @Override
             public void remove() throws IllegalStateException {
-                if (!hasNext()) {
-                    throw new IllegalStateException("End a list");
-                } else {
-                    try {
-                        if (AbstractTaskList.this.remove(getTask(currentIndex))) {
-                            currentIndex--;
-                        } else {
-                            throw new IllegalStateException();
-                        }
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        throw new IllegalStateException(e);
+                try {
+                    if (AbstractTaskList.this.remove(getTask(currentIndex[0]))) {
+                        currentIndex[0]--;
+                    } else {
+                        throw new IllegalStateException();
                     }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    throw new IllegalStateException(e);
                 }
             }
         };
     }
-
-
 
     public abstract Stream<Task> getStream();
 }
