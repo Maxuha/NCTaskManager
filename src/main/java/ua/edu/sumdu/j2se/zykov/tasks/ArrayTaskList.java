@@ -8,7 +8,7 @@ import java.util.stream.Stream;
  */
 public class ArrayTaskList extends AbstractTaskList {
 
-    private final int k = 2;
+    private transient final int k = 2;
     private Task[] tasks = new Task[10];
 
     /**

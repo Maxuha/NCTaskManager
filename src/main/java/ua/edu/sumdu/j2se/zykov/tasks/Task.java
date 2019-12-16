@@ -1,14 +1,13 @@
 package ua.edu.sumdu.j2se.zykov.tasks;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.temporal.TemporalAmount;
 import java.util.Objects;
 
 /**
  * class Task - describe Task.
  */
-public class Task implements Cloneable {
+public class Task implements Cloneable, Serializable {
     /**
      * title is name task.
      */
@@ -181,9 +180,9 @@ public class Task implements Cloneable {
         Task task = (Task) o;
         return active == task.active
                 && repeated == task.repeated
-                && time == task.time
-                && startTime == task.startTime
-                && endTime == task.endTime
+                && time.equals(task.time)
+                && startTime.equals(task.startTime)
+                && endTime.equals(task.endTime)
                 && repeatInterval == task.repeatInterval
                 && title.equals(task.title);
     }
