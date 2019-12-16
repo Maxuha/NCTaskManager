@@ -14,7 +14,6 @@ public class TaskIO {
     private static int repeatInterval;
     private static long start;
     private static long end;
-    private static AbstractTaskList tasks1;
 
     public static void write(AbstractTaskList tasks, OutputStream out) {
         DataOutput data = new DataOutputStream(out);
@@ -155,7 +154,6 @@ public class TaskIO {
 
     public static void write(AbstractTaskList tasks, Writer out) throws IOException {
         Gson gson = new Gson();
-        tasks1 = tasks;
         out.write(gson.toJson(tasks, tasks.getClass()));
         out.close();
     }
