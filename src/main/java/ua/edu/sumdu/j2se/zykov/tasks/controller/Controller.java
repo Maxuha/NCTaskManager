@@ -1,11 +1,9 @@
 package ua.edu.sumdu.j2se.zykov.tasks.controller;
 
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
-import ua.edu.sumdu.j2se.zykov.tasks.model.Task;
 import ua.edu.sumdu.j2se.zykov.tasks.view.View;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 public abstract class Controller {
     protected View view;
@@ -20,17 +18,11 @@ public abstract class Controller {
     public abstract void process(Actions actions);
 
     public void addTask() {
-        String message = "";
         try {
-            message = view.addTask();
+            taskList.add(view.addTask());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String[] values = message.split(" ");
-        LocalDateTime dateTime = LocalDateTime.parse(values[1]);
-        Task task = new Task(values[0], dateTime);
-        taskList.add(task);
-        view.showMessage("Task " + task.getTitle() + " added");
         backMenu();
     }
 
@@ -73,7 +65,7 @@ public abstract class Controller {
 
     private void backMenu() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

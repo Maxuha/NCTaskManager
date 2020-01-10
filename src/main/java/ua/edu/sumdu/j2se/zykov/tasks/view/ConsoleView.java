@@ -1,10 +1,12 @@
 package ua.edu.sumdu.j2se.zykov.tasks.view;
 
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.zykov.tasks.model.Task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 
 public class ConsoleView implements View{
     private BufferedReader reader;
@@ -22,12 +24,16 @@ public class ConsoleView implements View{
     }
 
     @Override
-    public String addTask() throws IOException {
+    public Task addTask() throws IOException {
         System.out.println("Input name a task: ");
         String message = reader.readLine();
         System.out.println("Input time to run a task");
         message += " " + reader.readLine();
-        return message;
+        String[] values = message.split(" ");
+        LocalDateTime dateTime = LocalDateTime.parse(values[1]);
+        Task task = new Task(values[0], dateTime);
+        showMessage("Task " + task.getTitle() + " added");
+        return task;
     }
 
     @Override
