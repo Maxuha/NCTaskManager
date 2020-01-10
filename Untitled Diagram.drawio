@@ -1,6 +1,6 @@
-<mxfile host="www.draw.io" modified="2020-01-10T14:05:46.854Z" agent="Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36" etag="O2y9KvjXkbqdJagicORV" version="12.5.1" type="github">
+<mxfile host="www.draw.io" modified="2020-01-10T17:44:29.903Z" agent="Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36" etag="2HqSWtoSwhQcAsl63xIp" version="12.5.1" type="github">
   <diagram name="Page-1" id="9f46799a-70d6-7492-0946-bef42562c5a5">
-    <mxGraphModel dx="2755" dy="1508" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
+    <mxGraphModel dx="1102" dy="603" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
@@ -433,7 +433,9 @@
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
         <mxCell id="s_BUjWQrzMSPQlRfPTQx-28" value="NotificationManager" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="1050" y="1050" width="160" height="86" as="geometry"/>
+          <mxGeometry x="1050" y="1050" width="160" height="86" as="geometry">
+            <mxRectangle x="1050" y="1050" width="150" height="26" as="alternateBounds"/>
+          </mxGeometry>
         </mxCell>
         <mxCell id="s_BUjWQrzMSPQlRfPTQx-29" value="observers:List&lt;Observer&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="s_BUjWQrzMSPQlRfPTQx-28">
           <mxGeometry y="26" width="160" height="26" as="geometry"/>
@@ -503,6 +505,20 @@
             <mxPoint x="670" y="380" as="sourcePoint"/>
             <mxPoint x="1600" y="100" as="targetPoint"/>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="s_BUjWQrzMSPQlRfPTQx-52" value="NotificationThread" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="1160" width="160" height="86" as="geometry">
+            <mxRectangle x="1050" y="1050" width="150" height="26" as="alternateBounds"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s_BUjWQrzMSPQlRfPTQx-53" value="observers:List&lt;Observer&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="s_BUjWQrzMSPQlRfPTQx-52">
+          <mxGeometry y="26" width="160" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_BUjWQrzMSPQlRfPTQx-54" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="s_BUjWQrzMSPQlRfPTQx-52">
+          <mxGeometry y="52" width="160" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_BUjWQrzMSPQlRfPTQx-55" value="+ run():void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="s_BUjWQrzMSPQlRfPTQx-52">
+          <mxGeometry y="60" width="160" height="26" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
