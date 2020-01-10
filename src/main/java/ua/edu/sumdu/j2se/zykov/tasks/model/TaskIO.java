@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.zykov.tasks;
+package ua.edu.sumdu.j2se.zykov.tasks.model;
 
 import com.google.gson.Gson;
 
