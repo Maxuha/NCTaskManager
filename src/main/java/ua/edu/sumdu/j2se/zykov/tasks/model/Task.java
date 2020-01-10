@@ -2,6 +2,7 @@ package ua.edu.sumdu.j2se.zykov.tasks.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -201,14 +202,7 @@ public class Task implements Cloneable, Serializable {
      */
     @Override
     public String toString() {
-        return "Task{" + "title='" + title + '\''
-                + ", active=" + active
-                + ", repeated=" + repeated
-                + ", time=" + time
-                + ", startTime=" + startTime
-                + ", endTime=" + endTime
-                + ", repeatInterval=" + repeatInterval
-                + '}';
+        return "| " + title + " | " +  time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " | " + active + " | " + repeated + " | " + endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " | " + repeatInterval + " |";
     }
 
     /**

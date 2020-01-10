@@ -87,10 +87,13 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public String toString() {
-        return "ArrayTaskList{" +
-                "tasks=" + Arrays.toString(tasks) +
-                ", count=" + count +
-                '}';
+        StringBuilder value = new StringBuilder("-------------------------------------------------------------------------------------------\n" +
+                "| title |        time         | active | repeated |      last time      | repeat interval |");
+        for (int i = 0; i < count; i++) {
+            value.append("\n").append(tasks[i]);
+        }
+        value.append("\n-------------------------------------------------------------------------------------------");
+        return value.toString();
     }
 
     @Override

@@ -37,12 +37,12 @@ public class ConsoleView implements View{
     }
 
     @Override
-    public String removeTask() {
+    public Task removeTask() {
         return null;
     }
 
     @Override
-    public String changeTask() {
+    public Task changeTask() {
         return null;
     }
 
