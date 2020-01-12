@@ -9,6 +9,11 @@ import java.util.Objects;
  * class Task - describe Task.
  */
 public class Task implements Cloneable, Serializable {
+
+    /**
+     * id is unique identificator a task.
+     */
+    private long id;
     /**
      * title is name task.
      */
@@ -69,12 +74,14 @@ public class Task implements Cloneable, Serializable {
     /**
      * @param title is title current task.
      * @param time is time current task.
+     * @param id unique identificator a task.
      */
-    public Task(String title, LocalDateTime time)
+    public Task(long id, String title, LocalDateTime time)
             throws IllegalArgumentException {
         if (time == null) {
             throw new IllegalArgumentException();
         }
+        this.id = id;
         this.title = title;
         this.time = time;
         startTime = time;
@@ -88,12 +95,14 @@ public class Task implements Cloneable, Serializable {
      * @param start is start time current task.
      * @param end is end time current task.
      * @param interval is repeat interval time current task.
+     * @param id unique identificator a task.
      */
-    public Task(String title, LocalDateTime start, LocalDateTime end,
+    public Task(long id, String title, LocalDateTime start, LocalDateTime end,
                 int interval) throws IllegalArgumentException {
         if (start == null && end == null && interval <= 0) {
             throw new IllegalArgumentException();
         }
+        this.id = id;
         this.title = title;
         startTime = start;
         endTime = end;
@@ -118,6 +127,13 @@ public class Task implements Cloneable, Serializable {
         endTime = time;
         repeatInterval = 0;
         repeated = false;
+    }
+
+    /**
+     * @return id a task.
+     */
+    public long getId() {
+        return id;
     }
 
     /**
@@ -202,7 +218,7 @@ public class Task implements Cloneable, Serializable {
      */
     @Override
     public String toString() {
-        return "| " + title + " | " +  time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " | " + active + " | " + repeated + " | " + endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " | " + repeatInterval + " |";
+        return "| " + id + " | " + title + " | " +  time.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss")) + " | " + active + " | " + repeated + " | " + endTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss")) + " | " + repeatInterval + " |";
     }
 
     /**

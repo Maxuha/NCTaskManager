@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ConsoleView implements View{
     private BufferedReader reader;
@@ -27,11 +28,11 @@ public class ConsoleView implements View{
     public Task addTask() throws IOException {
         System.out.println("Input name a task: ");
         String message = reader.readLine();
-        System.out.println("Input time to run a task");
+        System.out.println("Input day and time to run a task: ");
         message += " " + reader.readLine();
         String[] values = message.split(" ");
-        LocalDateTime dateTime = LocalDateTime.parse(values[1]);
-        Task task = new Task(values[0], dateTime);
+        LocalDateTime dateTime = LocalDateTime.parse(values[1], DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss"));
+        Task task = new Task(System.currentTimeMillis(), values[0], dateTime);
         showMessage("Task " + task.getTitle() + " added");
         return task;
     }

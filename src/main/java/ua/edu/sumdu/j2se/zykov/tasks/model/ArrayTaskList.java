@@ -88,7 +88,7 @@ public class ArrayTaskList extends AbstractTaskList {
     @Override
     public String toString() {
         StringBuilder value = new StringBuilder("-------------------------------------------------------------------------------------------\n" +
-                "| title |        time         | active | repeated |      last time      | repeat interval |");
+                "|       id       | title |        time         | active | repeated |      last time      | repeat interval |");
         for (int i = 0; i < count; i++) {
             value.append("\n").append(tasks[i]);
         }

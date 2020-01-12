@@ -7,20 +7,22 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class TaskIO {
-    private static int size;
-    private static int nameLength;
-    private static String name;
-    private static String isActive;
-    private static int repeatInterval;
-    private static long start;
-    private static long end;
 
     public static void write(AbstractTaskList tasks, OutputStream out) {
-        DataOutput data = new DataOutputStream(out);
+        int size;
+        long id;
+        int nameLength;
+        String name;
+        String isActive;
+        int repeatInterval;
+        long start;
+        long end;
+        DataOutputStream data = new DataOutputStream(out);
         size = tasks.size();
         try {
             data.writeInt(size);
             for (Task task : tasks) {
+                id = task.getId();
                 name = task.getTitle();
                 nameLength = name.length();
                 if (task.isActive()) {
@@ -30,6 +32,7 @@ public class TaskIO {
                 }
                 repeatInterval = task.getRepeatInterval();
                 start = task.getStartTime().toEpochSecond(ZoneOffset.UTC);
+                data.writeLong(id);
                 data.writeInt(nameLength);
                 data.writeChars(name);
                 data.writeChars(isActive);
@@ -42,10 +45,24 @@ public class TaskIO {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                data.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     public static void read(AbstractTaskList tasks, InputStream in) throws IOException {
-        DataInput data = new DataInputStream(in);
+        int size;
+        long id;
+        int nameLength;
+        String name;
+        String isActive;
+        int repeatInterval;
+        long start;
+        long end;
+        DataInputStream data = new DataInputStream(in);
         boolean isActiveBoolean;
         LocalDateTime startTime;
         LocalDateTime endTime;
@@ -55,6 +72,7 @@ public class TaskIO {
             for (int i = 0; i < size; i++) {
                 name = "";
                 isActive = "";
+                id = data.readLong();
                 nameLength = data.readInt();
                 for (int j = 0; j < nameLength; j++) {
                     name += data.readChar();
@@ -70,7 +88,7 @@ public class TaskIO {
                     isActiveBoolean = false;
                 }
                 startTime = LocalDateTime.ofEpochSecond(start, 0, ZoneOffset.UTC);
-                task = new Task(name, startTime);
+                task = new Task(id, name, startTime);
                 task.setActive(isActiveBoolean);
                 if (repeatInterval != 0) {
                     end = data.readLong();
@@ -81,15 +99,26 @@ public class TaskIO {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            data.close();
         }
     }
 
     public static void writeBinary(AbstractTaskList tasks, File file) throws IOException {
-        DataOutput data = new DataOutputStream(new FileOutputStream(file));
+        int size;
+        long id;
+        int nameLength;
+        String name;
+        String isActive;
+        int repeatInterval;
+        long start;
+        long end;
+        DataOutputStream data = new DataOutputStream(new FileOutputStream(file));
         size = tasks.size();
         try {
             data.writeInt(size);
             for (Task task : tasks) {
+                id = task.getId();
                 name = task.getTitle();
                 nameLength = name.length();;
                 if (task.isActive()) {
@@ -99,6 +128,7 @@ public class TaskIO {
                 }
                 repeatInterval = task.getRepeatInterval();
                 start = task.getStartTime().toEpochSecond(ZoneOffset.UTC);
+                data.writeLong(id);
                 data.writeInt(nameLength);
                 data.writeChars(name);
                 data.writeChars(isActive);
@@ -110,12 +140,22 @@ public class TaskIO {
                 }
             }
         } catch (IOException e) {
-
+            e.printStackTrace();
+        } finally {
+            data.close();
         }
     }
 
     public static void readBinary(AbstractTaskList tasks, File file) throws IOException {
-        DataInput data = new DataInputStream(new FileInputStream(file));
+        int size;
+        long id;
+        int nameLength;
+        String name;
+        String isActive;
+        int repeatInterval;
+        long start;
+        long end;
+        DataInputStream data = new DataInputStream(new FileInputStream(file));
         boolean isActiveBoolean;
         LocalDateTime startTime;
         LocalDateTime endTime;
@@ -123,6 +163,9 @@ public class TaskIO {
         try {
             size = data.readInt();
             for (int i = 0; i < size; i++) {
+                name = "";
+                isActive = "";
+                id = data.readLong();
                 nameLength = data.readInt();
                 for (int j = 0; j < nameLength; j++) {
                     name += data.readChar();
@@ -138,7 +181,7 @@ public class TaskIO {
                     isActiveBoolean = false;
                 }
                 startTime = LocalDateTime.ofEpochSecond(start, 0, ZoneOffset.UTC);
-                task = new Task(name, startTime);
+                task = new Task(id, name, startTime);
                 task.setActive(isActiveBoolean);
                 if (repeatInterval != 0) {
                     end = data.readLong();
@@ -148,7 +191,9 @@ public class TaskIO {
                 tasks.add(task);
             }
         } catch (IOException e) {
-
+            e.printStackTrace();
+        } finally {
+            data.close();
         }
     }
 
