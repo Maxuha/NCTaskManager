@@ -8,8 +8,8 @@ import java.io.IOException;
 public interface View {
     int update();
     Task addTask() throws IOException;
-    Task removeTask();
-    Task changeTask();
+    void removeTask(AbstractTaskList taskList) throws IOException;
+    void changeTask(AbstractTaskList taskList) throws IOException;
     void showTasks(AbstractTaskList taskList);
     void mainMenu();
     void calendar();

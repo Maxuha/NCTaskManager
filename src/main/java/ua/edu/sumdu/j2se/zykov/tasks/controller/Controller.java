@@ -27,11 +27,21 @@ public abstract class Controller {
     }
 
     public void removeTask() {
-
+        try {
+            view.removeTask(taskList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        backMenu();
     }
 
     public void changeTask() {
-
+        try {
+            view.changeTask(taskList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        backMenu();
     }
 
     public void showTasks() {

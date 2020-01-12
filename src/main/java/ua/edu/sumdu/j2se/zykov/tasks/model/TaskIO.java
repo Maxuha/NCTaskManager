@@ -8,6 +8,7 @@ import java.time.ZoneOffset;
 
 public class TaskIO {
 
+    @Deprecated
     public static void write(AbstractTaskList tasks, OutputStream out) {
         int size;
         long id;
@@ -53,6 +54,8 @@ public class TaskIO {
             }
         }
     }
+
+    @Deprecated
     public static void read(AbstractTaskList tasks, InputStream in) throws IOException {
         int size;
         long id;
@@ -104,6 +107,7 @@ public class TaskIO {
         }
     }
 
+    @Deprecated
     public static void writeBinary(AbstractTaskList tasks, File file) throws IOException {
         int size;
         long id;
@@ -146,6 +150,7 @@ public class TaskIO {
         }
     }
 
+    @Deprecated
     public static void readBinary(AbstractTaskList tasks, File file) throws IOException {
         int size;
         long id;
