@@ -1,7 +1,11 @@
 package ua.edu.sumdu.j2se.zykov.tasks.controller;
 
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.zykov.tasks.model.TaskIO;
 import ua.edu.sumdu.j2se.zykov.tasks.view.View;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ConsoleController extends Controller {
     public ConsoleController(View view, AbstractTaskList taskList) {
@@ -23,7 +27,13 @@ public class ConsoleController extends Controller {
                 break;
             case CALENDAR: calendar();
                 break;
-            case FINISH: System.exit(0);
+            case FINISH:
+                try {
+                    TaskIO.writeText(taskList, new File("tasks.json"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.exit(0);
                 break;
         }
     }

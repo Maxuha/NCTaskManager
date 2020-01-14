@@ -50,7 +50,12 @@ public abstract class Controller {
     }
 
     public void calendar() {
-
+        try {
+            view.calendar(taskList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mainMenu();
     }
 
     public void mainMenu() {

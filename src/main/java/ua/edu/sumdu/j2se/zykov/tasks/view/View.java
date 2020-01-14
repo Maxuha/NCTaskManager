@@ -12,6 +12,6 @@ public interface View {
     void changeTask(AbstractTaskList taskList) throws IOException;
     void showTasks(AbstractTaskList taskList);
     void mainMenu();
-    void calendar();
+    void calendar(AbstractTaskList taskList) throws IOException;
     void showMessage(String message);
 }

@@ -88,6 +88,7 @@ public class Task implements Cloneable, Serializable {
         endTime = time;
         repeatInterval = 0;
         repeated = false;
+        active = true;
     }
 
     /**
@@ -109,6 +110,7 @@ public class Task implements Cloneable, Serializable {
         repeatInterval = interval;
         time = startTime;
         repeated = true;
+        active = true;
     }
 
     /**
