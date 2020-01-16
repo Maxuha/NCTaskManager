@@ -30,35 +30,52 @@ public class ConsoleView implements View {
 
     @Override
     public Task addTask() throws IOException {
-        System.out.println("Enter name task: ");
-        String message = reader.readLine();
-        System.out.println("Enter day and time task (format: dd-MM-yyyy:HH-mm-ss): ");
-        message += " " + reader.readLine();
-        String[] values = message.split(" ");
-        LocalDateTime dateTime = LocalDateTime.parse(values[1], DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss"));
-        Task task = new Task(System.currentTimeMillis(), values[0], dateTime);
-        showMessage("Task " + task.getTitle() + " added");
+        Task task;
+        System.out.println("Enter name task (up to 20 characters): ");
+        String title = reader.readLine();
+        System.out.println("Enter repeat (true/false) ");
+        boolean repeat = Boolean.parseBoolean(reader.readLine());
+        if (!repeat) {
+            System.out.println("Enter day and time task (format: dd-MM-yyyy HH:mm:ss): ");
+            LocalDateTime time = LocalDateTime.parse(reader.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            task = new Task(System.currentTimeMillis(), title, time);
+        } else {
+            System.out.println("Enter start time(format: dd-MM-yyyy HH:mm:ss): ");
+            LocalDateTime startTime = LocalDateTime.parse(reader.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            System.out.println("Enter end time(format: dd-MM-yyyy HH:mm:ss): ");
+            LocalDateTime endTime = LocalDateTime.parse(reader.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            System.out.println("Enter repeat interval(in seconds): ");
+            int interval = Integer.parseInt(reader.readLine());
+            task = new Task(System.currentTimeMillis(), title, startTime, endTime, interval);
+        }
+        System.out.println("Task " + task.getTitle() + " added");
         return task;
     }
 
     @Override
     public void removeTask(AbstractTaskList taskList) throws IOException {
-        System.out.println("Enter id task to delete: ");
+        System.out.println("Enter id task to delete (0 - cancel): ");
         long id = Long.parseLong(reader.readLine());
+        if (id == 0) {
+            return;
+        }
         for (Task task: taskList) {
             if (task.getId() == id) {
                 taskList.remove(task);
-                showMessage("Task " + task.getTitle() + " with id " + id + " remove");
+                System.out.println("Task " + task.getTitle() + " with id " + id + " remove");
                 return;
             }
         }
-        showMessage("Task with id " + id + " not found.");
+        System.out.println("Task with id " + id + " not found.");
     }
 
     @Override
     public void changeTask(AbstractTaskList taskList) throws IOException {
-        System.out.println("Enter id task to change: ");
+        System.out.println("Enter id task to change (0 - cancel): ");
         long id = Long.parseLong(reader.readLine());
+        if (id == 0) {
+            return;
+        }
         for (Task task : taskList) {
             if (task.getId() == id) {
                 System.out.println(task);
@@ -120,11 +137,11 @@ public class ConsoleView implements View {
                         changeType = ChangeType.REPEAT_INTERVAL;
                         break;
                 }
-                showMessage("Task with id " + id + " changed " + changeType + " on " + result);
+                System.out.println("Task with id " + id + " changed " + changeType + " on " + result);
                 return;
             }
         }
-        showMessage("Task with id " + id + " not found.");
+        System.out.println("Task with id " + id + " not found.");
     }
 
     @Override
@@ -150,10 +167,18 @@ public class ConsoleView implements View {
 
     @Override
     public void calendar(AbstractTaskList taskList) throws IOException {
-        System.out.println("Enter start date (format: dd-MM-yyyy:HH-mm-ss)... ");
-        LocalDateTime start = LocalDateTime.parse(reader.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss"));
-        System.out.println("Enter end date (format: dd-MM-yyyy:HH-mm-ss)... ");
-        LocalDateTime end = LocalDateTime.parse(reader.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss"));
+        System.out.println("Enter start date (format: dd-MM-yyyy HH:mm:ss) (0 - cancel): ");
+        String in = reader.readLine();
+        if ("0".equals(in)) {
+            return;
+        }
+        LocalDateTime start = LocalDateTime.parse(in, DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss"));
+        System.out.println("Enter end date (format: dd-MM-yyyy HH:mm:ss) (0 - cancel): ");
+        in = reader.readLine();
+        if ("0".equals(in)) {
+            return;
+        }
+        LocalDateTime end = LocalDateTime.parse(in, DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss"));
         SortedMap<LocalDateTime, Set<Task>> sortedMap = Tasks.calendar(taskList, start, end);
         System.out.println("Date                 | Task         ");
         Object[] tasks;
@@ -171,10 +196,5 @@ public class ConsoleView implements View {
         }
         System.out.println("Input any button to main menu...");
         reader.readLine();
-    }
-
-    @Override
-    public void showMessage(String message) {
-        System.out.println(message);
     }
 }

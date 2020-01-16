@@ -1,6 +1,11 @@
 package ua.edu.sumdu.j2se.zykov.tasks.controller;
 
+import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.zykov.tasks.view.NotificationConsole;
+import ua.edu.sumdu.j2se.zykov.tasks.view.NotificationTelegram;
 import ua.edu.sumdu.j2se.zykov.tasks.view.View;
 
 import java.io.IOException;
@@ -9,10 +14,24 @@ public abstract class Controller {
     protected View view;
     protected AbstractTaskList taskList;
     protected int action = -1;
+    protected NotificationThread notificationThread;
 
     public Controller(View view, AbstractTaskList taskList) {
         this.view = view;
         this.taskList = taskList;
+        ApiContextInitializer.init();
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        NotificationTelegram notificationTelegram = new NotificationTelegram();
+        try {
+            telegramBotsApi.registerBot(notificationTelegram);
+        } catch (TelegramApiRequestException e) {
+            e.printStackTrace();
+        }
+        notificationThread = new NotificationThread(taskList);
+        NotificationConsole notificationConsole = new NotificationConsole();
+        notificationThread.register(notificationTelegram);
+        notificationThread.register(notificationConsole);
+        notificationThread.start();
     }
 
     public abstract void process(Actions actions);
@@ -24,6 +43,7 @@ public abstract class Controller {
             e.printStackTrace();
         }
         backMenu();
+        notificationThread.setTaskList(taskList);
     }
 
     public void removeTask() {
@@ -33,6 +53,7 @@ public abstract class Controller {
             e.printStackTrace();
         }
         backMenu();
+        notificationThread.setTaskList(taskList);
     }
 
     public void changeTask() {
@@ -42,6 +63,7 @@ public abstract class Controller {
             e.printStackTrace();
         }
         backMenu();
+        notificationThread.setTaskList(taskList);
     }
 
     public void showTasks() {
@@ -58,13 +80,20 @@ public abstract class Controller {
         mainMenu();
     }
 
+    public void settings() {
+        try {
+            view.calendar(taskList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mainMenu();
+    }
+
     public void mainMenu() {
         view.mainMenu();
         action = view.update();
         Actions actions;
         switch (action) {
-            case 0: actions = Actions.FINISH;
-                break;
             case 1: actions = Actions.SHOW_TASKS;
                 break;
             case 2: actions = Actions.ADD_TASK;
@@ -72,6 +101,10 @@ public abstract class Controller {
             case 3: actions = Actions.REMOVE_TASK;
                 break;
             case 4: actions = Actions.CHANGE_TASK;
+                break;
+            case 5: actions = Actions.FINISH;
+                break;
+            case 6: actions = Actions.SETTINGS;
                 break;
             default: actions = Actions.CALENDAR;
         }

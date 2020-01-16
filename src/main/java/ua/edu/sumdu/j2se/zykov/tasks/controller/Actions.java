@@ -8,4 +8,5 @@ public enum Actions {
     CHANGE_TASK,
     CALENDAR,
     MAIN_MENU,
+    SETTINGS
 }

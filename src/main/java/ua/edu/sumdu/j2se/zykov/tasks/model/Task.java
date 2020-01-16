@@ -220,7 +220,27 @@ public class Task implements Cloneable, Serializable {
      */
     @Override
     public String toString() {
-        return "| " + id + " | " + title + " | " +  time.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss")) + " | " + active + " | " + repeated + " | " + endTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss")) + " | " + repeatInterval + " |";
+        StringBuilder result = new StringBuilder("| " + id + "  | " + title);
+        for (int i = 0; i < 18 - title.length(); i++) {
+            result.append(" ");
+        }
+        result.append("| ").append(time.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss"))).append(" | ");
+        if (active) {
+            result.append(true).append("   | ");
+        } else {
+            result.append(false).append("  | ");
+        }
+        if (repeated) {
+            result.append(true).append("     | ");
+        } else {
+            result.append(false).append("    | ");
+        }
+        result.append(startTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss"))).append(" | ").append(endTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss"))).append(" | ").append(repeatInterval);
+        for (int i = 0; i < 16 - String.valueOf(repeatInterval).length(); i++) {
+            result.append(" ");
+        }
+        result.append("|");
+        return result.toString();
     }
 
     /**

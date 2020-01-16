@@ -18,7 +18,7 @@ public class ArrayTaskList extends AbstractTaskList {
         if (count == tasks.length) {
             Task[] temp = tasks;
             tasks = new Task[tasks.length * k];
-            tasks = Arrays.copyOf(temp, temp.length);
+            tasks = Arrays.copyOf(temp, tasks.length);
         }
         tasks[count] = task;
         count++;
@@ -87,12 +87,12 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public String toString() {
-        StringBuilder value = new StringBuilder("-------------------------------------------------------------------------------------------\n" +
-                "|       id       | title |        time         | active | repeated |      last time      | repeat interval |");
+        StringBuilder value = new StringBuilder("-------------------------------------------------------------------------------------------------------------------------------------------------\n" +
+                "|       id       |       title       |        time          | active | repeated |      start time      |      last time       | repeat interval |");
         for (int i = 0; i < count; i++) {
             value.append("\n").append(tasks[i]);
         }
-        value.append("\n-------------------------------------------------------------------------------------------");
+        value.append("\n-------------------------------------------------------------------------------------------------------------------------------------------------");
         return value.toString();
     }
 
