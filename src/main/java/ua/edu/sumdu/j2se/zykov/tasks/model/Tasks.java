@@ -11,6 +11,7 @@ public class Tasks {
      * @return object is array task from date to date
      */
     public static Iterable<Task> incoming(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
+        List<Task> taskList = new ArrayList<>();
         Iterator<Task> iterator = tasks.iterator();
         Task task;
 
@@ -19,12 +20,10 @@ public class Tasks {
             if (task.nextTimeAfter(start) != null
                     && !task.nextTimeAfter(start).isAfter(end)
                     && task.isActive()) {
-            } else {
-                iterator.remove();
+                taskList.add(task);
             }
         }
-
-        return tasks;
+        return taskList;
     }
 
     public static SortedMap<LocalDateTime, Set<Task>> calendar(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
