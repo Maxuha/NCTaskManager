@@ -41,6 +41,8 @@ public abstract class Controller {
             taskList.add(view.addTask());
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.out.println("Canceled operation.");
         }
         backMenu();
         notificationThread.setTaskList(taskList);
@@ -80,19 +82,10 @@ public abstract class Controller {
         mainMenu();
     }
 
-    public void settings() {
-        try {
-            view.calendar(taskList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mainMenu();
-    }
-
     public void mainMenu() {
         view.mainMenu();
         action = view.update();
-        Actions actions;
+        Actions actions = Actions.EMPTY;
         switch (action) {
             case 1: actions = Actions.SHOW_TASKS;
                 break;
@@ -102,11 +95,9 @@ public abstract class Controller {
                 break;
             case 4: actions = Actions.CHANGE_TASK;
                 break;
-            case 5: actions = Actions.FINISH;
+            case 5: actions = Actions.CALENDAR;
                 break;
-            case 6: actions = Actions.SETTINGS;
-                break;
-            default: actions = Actions.CALENDAR;
+            case 0: actions = Actions.FINISH;
         }
         process(actions);
     }
@@ -115,8 +106,9 @@ public abstract class Controller {
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Error. Redirect to main menu.");
+        } finally {
+            mainMenu();
         }
-        mainMenu();
     }
 }

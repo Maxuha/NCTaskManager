@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2se.zykov.tasks.view;
 
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
-import ua.edu.sumdu.j2se.zykov.tasks.model.ArrayTaskList;
 import ua.edu.sumdu.j2se.zykov.tasks.model.Task;
 import ua.edu.sumdu.j2se.zykov.tasks.model.Tasks;
 
@@ -10,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Set;
 import java.util.SortedMap;
 
@@ -31,19 +31,31 @@ public class ConsoleView implements View {
     @Override
     public Task addTask() throws IOException {
         Task task;
-        System.out.println("Enter name task (up to 20 characters): ");
+        System.out.println("Enter name task (up to 20 characters) (0 - cancel): ");
         String title = reader.readLine();
+        if ("0".equals(title)) {
+            return null;
+        }
         System.out.println("Enter repeat (true/false) ");
         boolean repeat = Boolean.parseBoolean(reader.readLine());
         if (!repeat) {
-            System.out.println("Enter day and time task (format: dd-MM-yyyy HH:mm:ss): ");
-            LocalDateTime time = LocalDateTime.parse(reader.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            System.out.println("Enter day and time task (format: dd-MM-yyyy HH:mm:ss) (0 - cancel): ");
+            LocalDateTime time = inputDate();
+            if (time == null) {
+                return null;
+            }
             task = new Task(System.currentTimeMillis(), title, time);
         } else {
-            System.out.println("Enter start time(format: dd-MM-yyyy HH:mm:ss): ");
-            LocalDateTime startTime = LocalDateTime.parse(reader.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-            System.out.println("Enter end time(format: dd-MM-yyyy HH:mm:ss): ");
-            LocalDateTime endTime = LocalDateTime.parse(reader.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            System.out.println("Enter start date and time(format: dd-MM-yyyy HH:mm:ss) (0 - cancel): ");
+            LocalDateTime startTime = inputDate();
+            if (startTime == null) {
+                return null;
+            }
+            System.out.println("Enter end date and time(format: dd-MM-yyyy HH:mm:ss) (0 - cancel): ");
+            LocalDateTime endTime = inputDate();
+            if (endTime == null) {
+                return null;
+            }
             System.out.println("Enter repeat interval(in seconds): ");
             int interval = Integer.parseInt(reader.readLine());
             task = new Task(System.currentTimeMillis(), title, startTime, endTime, interval);
@@ -59,7 +71,7 @@ public class ConsoleView implements View {
         if (id == 0) {
             return;
         }
-        for (Task task: taskList) {
+        for (Task task : taskList) {
             if (task.getId() == id) {
                 taskList.remove(task);
                 System.out.println("Task " + task.getTitle() + " with id " + id + " remove");
@@ -88,54 +100,79 @@ public class ConsoleView implements View {
                 System.out.println("6. Change end time");
                 System.out.println("7. Change repeat interval");
                 System.out.println("0. Cancel");
-                int value = Integer.parseInt(reader.readLine());
+                LocalDateTime dateTime;
                 String result = "";
                 ChangeType changeType = ChangeType.EMPTY;
-                switch (value) {
-                    case 0:
-                        return;
-                    case 1:
-                        System.out.println("Enter new name... ");
-                        result = reader.readLine();
-                        task.setTitle(result);
-                        changeType = ChangeType.RENAME;
-                        break;
-                    case 2:
-                        System.out.println("Enter active: true and false... ");
-                        result = reader.readLine();
-                        task.setActive(Boolean.parseBoolean(result));
-                        changeType = ChangeType.ACTIVE;
-                        break;
-                    case 3:
-                        System.out.println("Enter repeat: true and false... ");
-                        result = reader.readLine();
-                        task.setActive(Boolean.parseBoolean(result));
-                        changeType = ChangeType.REPEAT;
-                        break;
-                    case 4:
-                        System.out.println("Enter date and time (format: dd-MM-yyyy:HH-mm-ss)... ");
-                        result = reader.readLine();
-                        task.setTime(LocalDateTime.parse(result, DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss")));
-                        changeType = ChangeType.TIME;
-                        break;
-                    case 5:
-                        System.out.println("Enter start date and time (format: dd-MM-yyyy:HH-mm-ss)... ");
-                        result = reader.readLine();
-                        task.setTime(LocalDateTime.parse(result, DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss")), task.getEndTime(), task.getRepeatInterval());
-                        changeType = ChangeType.START_TIME;
-                        break;
-                    case 6:
-                        System.out.println("Enter end date and time (format: dd-MM-yyyy:HH-mm-ss)... ");
-                        result = reader.readLine();
-                        task.setTime(task.getStartTime(), LocalDateTime.parse(result, DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss")), task.getRepeatInterval());
-                        changeType = ChangeType.END_TIME;
-                        break;
-                    case 7:
-                        System.out.println("Enter repeat interval... ");
-                        result = reader.readLine();
-                        task.setTime(task.getStartTime(), task.getEndTime(), Integer.parseInt(result));
-                        changeType = ChangeType.REPEAT_INTERVAL;
-                        break;
+                while (changeType.equals(ChangeType.EMPTY)) {
+                    int value = Integer.parseInt(reader.readLine());
+                    switch (value) {
+                        case 0:
+                            return;
+                        case 1:
+                            System.out.println("Enter new name (0 - cancel): ");
+                            result = reader.readLine();
+                            if ("0".equals(result)) {
+                                return;
+                            }
+                            task.setTitle(result);
+                            changeType = ChangeType.RENAME;
+                            break;
+                        case 2:
+                            System.out.println("Enter active: true and false (0 - cancel): ");
+                            result = reader.readLine();
+                            if ("0".equals(result)) {
+                                return;
+                            }
+                            task.setActive(Boolean.parseBoolean(result));
+                            changeType = ChangeType.ACTIVE;
+                            break;
+                        case 3:
+                            System.out.println("Enter repeat: true and false (0 - cancel): ");
+                            result = reader.readLine();
+                            if ("0".equals(result)) {
+                                return;
+                            }
+                            task.setActive(Boolean.parseBoolean(result));
+                            changeType = ChangeType.REPEAT;
+                            break;
+                        case 4:
+                            System.out.println("Enter date and time (format: dd-MM-yyyy:HH-mm-ss) (0 - cancel): ");
+                            result = reader.readLine();
+                            dateTime = inputDate();
+                            if (dateTime == null) {
+                                return;
+                            }
+                            task.setTime(dateTime);
+                            changeType = ChangeType.TIME;
+                            break;
+                        case 5:
+                            System.out.println("Enter start date and time (format: dd-MM-yyyy:HH-mm-ss) (0 - cancel): ");
+                            result = reader.readLine();
+                            dateTime = inputDate();
+                            if (dateTime == null) {
+                                return;
+                            }
+                            task.setTime(dateTime, task.getEndTime(), task.getRepeatInterval());
+                            changeType = ChangeType.START_TIME;
+                            break;
+                        case 6:
+                            System.out.println("Enter end date and time (format: dd-MM-yyyy:HH-mm-ss) (0 - cancel): ");
+                            dateTime = inputDate();
+                            if (dateTime == null) {
+                                return;
+                            }
+                            task.setTime(task.getStartTime(), dateTime, task.getRepeatInterval());
+                            changeType = ChangeType.END_TIME;
+                            break;
+                        case 7:
+                            System.out.println("Enter repeat interval: ");
+                            result = reader.readLine();
+                            task.setTime(task.getStartTime(), task.getEndTime(), Integer.parseInt(result));
+                            changeType = ChangeType.REPEAT_INTERVAL;
+                            break;
+                        default:
+                            System.out.println("Error. Enter correctly number: ");
+                    }
                 }
                 System.out.println("Task with id " + id + " changed " + changeType + " on " + result);
                 return;
@@ -168,33 +205,56 @@ public class ConsoleView implements View {
     @Override
     public void calendar(AbstractTaskList taskList) throws IOException {
         System.out.println("Enter start date (format: dd-MM-yyyy HH:mm:ss) (0 - cancel): ");
-        String in = reader.readLine();
-        if ("0".equals(in)) {
+        LocalDateTime start = inputDate();
+        if (start == null) {
             return;
         }
-        LocalDateTime start = LocalDateTime.parse(in, DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss"));
         System.out.println("Enter end date (format: dd-MM-yyyy HH:mm:ss) (0 - cancel): ");
-        in = reader.readLine();
-        if ("0".equals(in)) {
+        LocalDateTime end = inputDate();
+        if (end == null) {
             return;
         }
-        LocalDateTime end = LocalDateTime.parse(in, DateTimeFormatter.ofPattern("dd-MM-yyyy:HH-mm-ss"));
         SortedMap<LocalDateTime, Set<Task>> sortedMap = Tasks.calendar(taskList, start, end);
+        if (sortedMap.entrySet().size() == 0) {
+            System.out.println("No one found task.");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         System.out.println("Date                 | Task         ");
         Object[] tasks;
         for (SortedMap.Entry<LocalDateTime, Set<Task>> entry : sortedMap.entrySet()) {
             tasks = entry.getValue().toArray();
-            System.out.print(entry.getKey().format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss")) + "| ");
+            System.out.print(entry.getKey().format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss")) + " | ");
             for (int i = 0; i < tasks.length; i++) {
-                if (i+1 == tasks.length) {
-                    System.out.print(((Task)tasks[i]).getTitle() + ".");
+                if (i + 1 == tasks.length) {
+                    System.out.print(((Task) tasks[i]).getTitle() + ".");
                 } else {
-                    System.out.print(((Task)tasks[i]).getTitle() + ", ");
+                    System.out.print(((Task) tasks[i]).getTitle() + ", ");
                 }
             }
             System.out.println();
         }
         System.out.println("Input any button to main menu...");
         reader.readLine();
+    }
+
+    private LocalDateTime inputDate() {
+        while (true) {
+            try {
+                String date = reader.readLine();
+                if ("0".equals(date)) {
+                    return null;
+                }
+                return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Incorrectly format date. Enter correctly date (format: dd-MM-yyyy HH:mm:ss): ");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

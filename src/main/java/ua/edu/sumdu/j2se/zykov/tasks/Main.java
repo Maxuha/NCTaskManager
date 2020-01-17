@@ -41,7 +41,7 @@ public static void main(String[] args) {
     try {
         TaskIO.readText(taskList, new File("tasks.json"));
     } catch (IOException e) {
-        e.printStackTrace();
+
     }
     View view = new ConsoleView();
     Controller controller = new ConsoleController(view, taskList);
