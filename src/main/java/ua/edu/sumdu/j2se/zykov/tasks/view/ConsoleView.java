@@ -20,10 +20,16 @@ public class ConsoleView implements View {
     public int update() {
         reader = new BufferedReader(new InputStreamReader(System.in));
         int value = -1;
-        try {
-            value = Integer.parseInt(reader.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean isTry = true;
+        while (isTry) {
+            try {
+                value = Integer.parseInt(reader.readLine());
+                isTry = false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                System.out.println("Error selected code. Enter correctly code:");
+            }
         }
         return value;
     }
