@@ -1,0 +1,1 @@
+mvn exec:java -Dexec.mainClass="ua.edu.sumdu.j2se.zykov.tasks.Main"
