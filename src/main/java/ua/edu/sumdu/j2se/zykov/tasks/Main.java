@@ -24,7 +24,7 @@ public static void main(String[] args) {
     AbstractTaskList taskList = new ArrayTaskList();
     try {
         TaskIO.readText(taskList, new File("tasks.json"));
-    } catch (IOException e) {
+    } catch (IOException ignored) {
 
     }
     View view = new ConsoleView();
