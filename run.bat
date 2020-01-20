@@ -1,1 +1,1 @@
-mvn exec:java -Dexec.mainClass="ua.edu.sumdu.j2se.zykov.tasks.Main"
+java -jar target/NCTaskManager-1.0-SNAPSHOT.jar

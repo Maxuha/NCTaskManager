@@ -85,7 +85,6 @@
 <file name="D:\Projects\Projects\NCTaskManager\src\main\java\ua\edu\sumdu\j2se\zykov\tasks\Main.java">
 <error line="18" column="1" severity="error" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
 <error line="23" column="25" severity="error" message="Parameter args should be final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
-<error line="28" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
 </file>
 <file name="D:\Projects\Projects\NCTaskManager\src\main\java\ua\edu\sumdu\j2se\zykov\tasks\model\AbstractTaskList.java">
 <error line="1" severity="error" message="Missing package-info.java file." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocPackageCheck"/>
