@@ -7,8 +7,6 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class NotificationTelegram extends TelegramLongPollingBot implements Notification {
 
-    private String chatID = "593292108";
-
     @Override
     public void onUpdateReceived(Update update) {
         String message = update.getMessage().getText();
@@ -33,6 +31,7 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
     public synchronized void sendMsg(String s) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
+        String chatID = "593292108";
         sendMessage.setChatId(chatID);
         sendMessage.setText(s);
         try {
