@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.zykov.tasks.view;
 
+import ua.edu.sumdu.j2se.zykov.tasks.exceptions.NCTaskManagerNumberFormatException;
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zykov.tasks.model.Task;
 import ua.edu.sumdu.j2se.zykov.tasks.model.Tasks;
@@ -12,24 +13,28 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.logging.Logger;
 
 public class ConsoleView implements View {
     private BufferedReader reader;
+    private static final Logger log = Logger.getLogger(String.valueOf(ConsoleView.class));
 
     @Override
     public int update() {
         reader = new BufferedReader(new InputStreamReader(System.in));
         int value = -1;
-        do {
+        boolean isTry = true;
+        while (isTry) {
             try {
                 value = Integer.parseInt(reader.readLine());
-            } catch (IOException e) {
-                e.printStackTrace();
+                if (value < 0 || value > 5) {
+                    throw new NCTaskManagerNumberFormatException("Incorrectly selected number. Enter correctly number: ", value);
+                }
+                isTry = false;
+            } catch (IOException | NCTaskManagerNumberFormatException | NumberFormatException e) {
+                System.out.println(e.getMessage());
             }
-            if (value < 0 || value > 5) {
-                System.out.println("Incorrectly selected number. Enter correctly number: ");
-            }
-        } while (value < 0 || value > 5);
+        }
         return value;
     }
 
@@ -189,6 +194,7 @@ public class ConsoleView implements View {
     @Override
     public void showTasks(AbstractTaskList taskList) {
         System.out.println(taskList);
+        log.info("Show all tasks.");
         System.out.println("Input any button to main menu...");
         try {
             reader.readLine();
