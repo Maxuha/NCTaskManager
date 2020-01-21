@@ -8,8 +8,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class NotificationThread extends Thread {
+    private static final Logger log = Logger.getLogger(String.valueOf(NotificationThread.class));
     private AbstractTaskList taskList;
     private List<Notification> notifications;
     private Task lastTask;
@@ -18,6 +20,7 @@ public class NotificationThread extends Thread {
         super("NotificationThread");
         this.taskList = taskList;
         notifications = new ArrayList<>();
+        log.info("Created notification thread.");
     }
 
     public void setTaskList(AbstractTaskList taskList) {
