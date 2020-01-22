@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class ConsoleView implements View {
     private BufferedReader reader;
-    private static final Logger log = Logger.getLogger(String.valueOf(ConsoleView.class));
+    private static final Logger log = Logger.getLogger(ConsoleView.class.getName());
 
     @Override
     public int update() {

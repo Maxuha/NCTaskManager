@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public abstract class Controller {
-    private static final Logger log = Logger.getLogger(String.valueOf(Controller.class));
+    private static final Logger log = Logger.getLogger(Controller.class.getName());
     protected View view;
     protected AbstractTaskList taskList;
     protected int action = -1;
@@ -60,6 +60,7 @@ public abstract class Controller {
 
     public void removeTask() {
         try {
+            log.info("Opening remove menu...");
             view.removeTask(taskList);
             log.info("Task removed.");
         } catch (IOException e) {
@@ -73,6 +74,7 @@ public abstract class Controller {
 
     public void changeTask() {
         try {
+            log.info("Opening change menu...");
             view.changeTask(taskList);
             log.info("Task changed.");
         } catch (IOException e) {
@@ -91,8 +93,8 @@ public abstract class Controller {
 
     public void calendar() {
         try {
+            log.info("Opening calendar...");
             view.calendar(taskList);
-            log.info("Opened calendar.");
         } catch (IOException e) {
             e.printStackTrace();
             log.warning("Failed to open calendar.");
@@ -101,8 +103,8 @@ public abstract class Controller {
     }
 
     public void mainMenu() {
+        log.info("Opening main menu...");
         view.mainMenu();
-        log.info("Open main menu successfully.");
         action = view.update();
         Actions actions = Actions.EMPTY;
         switch (action) {

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public class ConsoleController extends Controller {
-    private static final Logger log = Logger.getLogger(String.valueOf(ConsoleController.class));
+    private static final Logger log = Logger.getLogger(ConsoleController.class.getName());
     public ConsoleController(View view, AbstractTaskList taskList) {
         super(view, taskList);
     }

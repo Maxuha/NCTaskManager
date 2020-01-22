@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class NotificationThread extends Thread {
-    private static final Logger log = Logger.getLogger(String.valueOf(NotificationThread.class));
+    private static final Logger log = Logger.getLogger(NotificationThread.class.getName());
     private AbstractTaskList taskList;
     private List<Notification> notifications;
     private Task lastTask;
