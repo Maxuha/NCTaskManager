@@ -1,5 +1,7 @@
 package ua.edu.sumdu.j2se.zykov.tasks.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zykov.tasks.model.Task;
 import ua.edu.sumdu.j2se.zykov.tasks.view.Notification;
@@ -8,10 +10,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class NotificationThread extends Thread {
-    private static final Logger log = Logger.getLogger(NotificationThread.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(NotificationThread.class);
     private AbstractTaskList taskList;
     private List<Notification> notifications;
     private Task lastTask;

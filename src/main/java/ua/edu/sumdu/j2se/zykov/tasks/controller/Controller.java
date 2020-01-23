@@ -1,5 +1,7 @@
 package ua.edu.sumdu.j2se.zykov.tasks.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
@@ -9,10 +11,9 @@ import ua.edu.sumdu.j2se.zykov.tasks.view.NotificationTelegram;
 import ua.edu.sumdu.j2se.zykov.tasks.view.View;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public abstract class Controller {
-    private static final Logger log = Logger.getLogger(Controller.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(Controller.class);
     protected View view;
     protected AbstractTaskList taskList;
     protected int action = -1;
@@ -29,7 +30,7 @@ public abstract class Controller {
             telegramBotsApi.registerBot(notificationTelegram);
             log.info("Telegram bot is running.");
         } catch (TelegramApiRequestException e) {
-            log.warning("Error run telegram bot.");
+            log.error("Error run telegram bot.");
             e.printStackTrace();
         }
         notificationThread = new NotificationThread(taskList);
@@ -48,7 +49,7 @@ public abstract class Controller {
             log.info("Task added.");
         } catch (IOException e) {
             e.printStackTrace();
-            log.warning("Failed to add task. Error IO.");
+            log.error("Failed to add task. Error IO.");
         } catch (NullPointerException e) {
             System.out.println("Canceled operation.");
             log.info("Task add canceled");
@@ -65,7 +66,7 @@ public abstract class Controller {
             log.info("Task removed.");
         } catch (IOException e) {
             e.printStackTrace();
-            log.warning("Failed to remove task. Error IO.");
+            log.error("Failed to remove task. Error IO.");
         }
         backMenu();
         notificationThread.setTaskList(taskList);
@@ -79,7 +80,7 @@ public abstract class Controller {
             log.info("Task changed.");
         } catch (IOException e) {
             e.printStackTrace();
-            log.warning("Failed to change task. Error IO.");
+            log.error("Failed to change task. Error IO.");
         }
         backMenu();
         notificationThread.setTaskList(taskList);
@@ -97,7 +98,7 @@ public abstract class Controller {
             view.calendar(taskList);
         } catch (IOException e) {
             e.printStackTrace();
-            log.warning("Failed to open calendar.");
+            log.error("Failed to open calendar.");
         }
         mainMenu();
     }
@@ -129,7 +130,7 @@ public abstract class Controller {
             log.info("Sleep successfully.");
         } catch (InterruptedException e) {
             System.out.println("Error. Redirect to main menu.");
-            log.warning("Sleeping not successfully.");
+            log.error("Sleeping not successfully.");
         } finally {
             mainMenu();
         }

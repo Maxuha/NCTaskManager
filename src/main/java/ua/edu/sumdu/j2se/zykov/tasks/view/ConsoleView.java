@@ -1,5 +1,7 @@
 package ua.edu.sumdu.j2se.zykov.tasks.view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.edu.sumdu.j2se.zykov.tasks.exceptions.NCTaskManagerNumberFormatException;
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zykov.tasks.model.Task;
@@ -13,11 +15,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.logging.Logger;
 
 public class ConsoleView implements View {
     private BufferedReader reader;
-    private static final Logger log = Logger.getLogger(ConsoleView.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(ConsoleView.class);
 
     @Override
     public int update() {
