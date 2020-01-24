@@ -17,9 +17,18 @@ import java.util.Set;
 import java.util.SortedMap;
 
 public class ConsoleView implements View {
+    /**
+     * reader - reading source
+     */
     private BufferedReader reader;
+    /**
+     * log is link on logger this class
+     */
     private static final Logger log = LoggerFactory.getLogger(ConsoleView.class);
 
+    /**
+     * @return number selected task
+     */
     @Override
     public int update() {
         reader = new BufferedReader(new InputStreamReader(System.in));
@@ -39,6 +48,10 @@ public class ConsoleView implements View {
         return value;
     }
 
+    /**
+     * @return new Task to add to taskList
+     * @throws IOException to the controller
+     */
     @Override
     public Task addTask() throws IOException {
         Task task;
@@ -75,6 +88,10 @@ public class ConsoleView implements View {
         return task;
     }
 
+    /**
+     * @param taskList for remove task
+     * @throws IOException to the controller
+     */
     @Override
     public void removeTask(AbstractTaskList taskList) throws IOException {
         System.out.println("Enter id task to delete (0 - cancel): ");
@@ -92,6 +109,10 @@ public class ConsoleView implements View {
         System.out.println("Task with id " + id + " not found.");
     }
 
+    /**
+     * @param taskList for change task
+     * @throws IOException to the controller
+     */
     @Override
     public void changeTask(AbstractTaskList taskList) throws IOException {
         System.out.println("Enter id task to change (0 - cancel): ");
@@ -192,6 +213,9 @@ public class ConsoleView implements View {
         System.out.println("Task with id " + id + " not found.");
     }
 
+    /**
+     * @param taskList for show all tasks
+     */
     @Override
     public void showTasks(AbstractTaskList taskList) {
         System.out.println(taskList);
@@ -204,6 +228,9 @@ public class ConsoleView implements View {
         }
     }
 
+    /**
+     * show main menu
+     */
     @Override
     public void mainMenu() {
         System.out.println("1. Show tasks");
@@ -214,6 +241,10 @@ public class ConsoleView implements View {
         System.out.println("0. Exit");
     }
 
+    /**
+     * @param taskList for show calendar
+     * @throws IOException to the controller
+     */
     @Override
     public void calendar(AbstractTaskList taskList) throws IOException {
         System.out.println("Enter start date (format: dd-MM-yyyy HH:mm:ss) (0 - cancel): ");

@@ -1,5 +1,8 @@
 package ua.edu.sumdu.j2se.zykov.tasks.controller;
 
+/**
+ * type tasks
+ */
 public enum Actions {
     EMPTY,
     FINISH,

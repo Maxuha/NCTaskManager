@@ -113,6 +113,9 @@ public class LinkedTaskList extends AbstractTaskList {
         return head.task.getTime().hashCode() + head.task.getEndTime().hashCode() + head.task.getRepeatInterval() + head.task.getStartTime().hashCode() + head.task.getTitle().hashCode();
     }
 
+    /**
+     * @return new type object of LinkTaskList based on current sheet
+     */
     @Override
     public LinkedTaskList clone() {
         LinkedTaskList copy = (LinkedTaskList) TaskListFactory.createTaskList(ListTypes.types.LINKED);

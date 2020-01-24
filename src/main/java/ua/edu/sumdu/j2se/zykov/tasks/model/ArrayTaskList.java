@@ -8,6 +8,10 @@ import java.util.stream.Stream;
  */
 public class ArrayTaskList extends AbstractTaskList {
 
+    /**
+     * k - coefficient for array expansion
+     * tasks - array tasks
+     */
     private transient final int k = 2;
     private Task[] tasks = new Task[10];
 
@@ -75,6 +79,9 @@ public class ArrayTaskList extends AbstractTaskList {
         return Arrays.hashCode(tasks);
     }
 
+    /**
+     * @return new type object of ArrayTaskList based on current sheet
+     */
     @Override
     public ArrayTaskList clone() {
         ArrayTaskList copy = (ArrayTaskList) TaskListFactory.createTaskList(ListTypes.types.ARRAY);
@@ -85,6 +92,9 @@ public class ArrayTaskList extends AbstractTaskList {
         return copy;
     }
 
+    /**
+     * @return table tasks
+     */
     @Override
     public String toString() {
         StringBuilder value = new StringBuilder("-------------------------------------------------------------------------------------------------------------------------------------------------\n" +
@@ -96,6 +106,9 @@ public class ArrayTaskList extends AbstractTaskList {
         return value.toString();
     }
 
+    /**
+     * @return tasks
+     */
     @Override
     public Stream<Task> getStream() {
         return Arrays.stream(tasks);
