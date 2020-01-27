@@ -12,11 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationThread extends Thread {
+    /**
+     * log - link on logger this class
+     * taskList - current task list
+     * notifications - list class Notification for different type notifications.
+     * Example: NotificationConsole, TelegramConsole etc
+     * lastTask - last notified task
+     */
     private static final Logger log = LoggerFactory.getLogger(NotificationThread.class);
     private AbstractTaskList taskList;
     private List<Notification> notifications;
     private Task lastTask;
 
+    /**
+     * @param taskList - current taskList to check for alert
+     */
     public NotificationThread(AbstractTaskList taskList) {
         super("NotificationThread");
         this.taskList = taskList;
@@ -24,18 +34,31 @@ public class NotificationThread extends Thread {
         log.info("Created notification thread.");
     }
 
+    /**
+     * @param taskList - set new task list to check for alert
+     */
     public void setTaskList(AbstractTaskList taskList) {
         this.taskList = taskList;
     }
 
+    /**
+     * @param notification - new notification for register
+     */
     public void register(Notification notification) {
         notifications.add(notification);
     }
 
+    /**
+     * @param notification - new notification for unregister
+     */
     public void unregister(Notification notification) {
         notifications.remove(notification);
     }
 
+
+    /**
+     * run notification thread
+     */
     @Override
     public void run() {
         long sec;
