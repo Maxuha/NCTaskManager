@@ -4,3 +4,5 @@
 /target/
 /NCTaskManager.iml
 /logger/
+.gitsecret/keys/random_seed
+!*.secret
