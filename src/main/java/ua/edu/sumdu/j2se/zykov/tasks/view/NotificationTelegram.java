@@ -1,11 +1,30 @@
 package ua.edu.sumdu.j2se.zykov.tasks.view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class NotificationTelegram extends TelegramLongPollingBot implements Notification {
+
+    private String token;
+    private static final Logger log = LoggerFactory.getLogger(NotificationTelegram.class);
+
+    public NotificationTelegram() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("token_telegram_bot.txt"));
+            token = reader.readLine();
+            reader.close();
+        } catch (IOException e) {
+               log.error("Failed read token from file: " + e.getMessage());
+        }
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -19,7 +38,7 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
 
     @Override
     public String getBotToken() {
-        return "867775440:AAFUOf7OCl6eQRu-NDhrm9s6FEqBd65ahIE";
+        return token;
     }
 
 
