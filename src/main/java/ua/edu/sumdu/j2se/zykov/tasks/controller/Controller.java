@@ -6,6 +6,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.zykov.tasks.model.Task;
 import ua.edu.sumdu.j2se.zykov.tasks.view.NotificationConsole;
 import ua.edu.sumdu.j2se.zykov.tasks.view.NotificationTelegram;
 import ua.edu.sumdu.j2se.zykov.tasks.view.View;
@@ -45,49 +46,50 @@ public abstract class Controller {
 
     public void addTask() {
         try {
-            taskList.add(view.addTask());
-            log.info("Task added.");
+            log.info("Opening add task menu...");
+            Task task = view.addTask();
+            taskList.add(task);
+            log.info("Task " + task.getTitle() + " added.");
         } catch (IOException e) {
-            e.printStackTrace();
-            log.error("Failed to add task. Error IO.");
+            log.error("Failed to add task. Error IO: " + e.getMessage());
+            view.showMessage("Failed to add task. Error IO.");
         } catch (NullPointerException e) {
-            System.out.println("Canceled operation.");
+            view.showMessage("Canceled operation.");
             log.info("Task add canceled");
         }
         backMenu();
         notificationThread.setTaskList(taskList);
-        log.info("Set new task list.");
+        log.info("Set new task list in notification thread.");
     }
 
     public void removeTask() {
         try {
-            log.info("Opening remove menu...");
+            log.info("Opening remove task menu...");
             view.removeTask(taskList);
-            log.info("Task removed.");
         } catch (IOException e) {
-            e.printStackTrace();
-            log.error("Failed to remove task. Error IO.");
+            log.error("Failed to remove task. Error IO: " + e.getMessage());
+            view.showMessage("Failed to remove task. Error IO.");
         }
         backMenu();
         notificationThread.setTaskList(taskList);
-        log.info("Set new task list.");
+        log.info("Set new task list in notification thread.");
     }
 
     public void changeTask() {
         try {
             log.info("Opening change menu...");
             view.changeTask(taskList);
-            log.info("Task changed.");
         } catch (IOException e) {
-            e.printStackTrace();
-            log.error("Failed to change task. Error IO.");
+            log.error("Failed to change task. Error IO: " + e.getMessage());
+            view.showMessage("Failed to change task. Error IO.");
         }
         backMenu();
         notificationThread.setTaskList(taskList);
-        log.info("Set new task list.");
+        log.info("Set new task list in notification thread.");
     }
 
     public void showTasks() {
+        log.info("Opening show tasks menu");
         view.showTasks(taskList);
         mainMenu();
     }
@@ -97,8 +99,8 @@ public abstract class Controller {
             log.info("Opening calendar...");
             view.calendar(taskList);
         } catch (IOException e) {
-            e.printStackTrace();
-            log.error("Failed to open calendar.");
+            log.error("Failed to open calendar: " + e.getMessage());
+            view.showMessage("Failed to open calendar.");
         }
         mainMenu();
     }

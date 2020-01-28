@@ -13,4 +13,9 @@ public interface View {
     void showTasks(AbstractTaskList taskList);
     void mainMenu();
     void calendar(AbstractTaskList taskList) throws IOException;
+
+    /**
+     * @param message to be show to user
+     */
+    void showMessage(String message);
 }

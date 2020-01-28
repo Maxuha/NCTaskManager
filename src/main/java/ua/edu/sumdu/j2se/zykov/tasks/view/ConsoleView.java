@@ -78,7 +78,7 @@ public class ConsoleView implements View {
     @Override
     public void removeTask(AbstractTaskList taskList) throws IOException {
         System.out.println("Enter id task to delete (0 - cancel): ");
-        long id = Long.parseLong(reader.readLine());
+        long id = getIDTask();
         if (id == 0) {
             return;
         }
@@ -86,16 +86,19 @@ public class ConsoleView implements View {
             if (task.getId() == id) {
                 taskList.remove(task);
                 System.out.println("Task " + task.getTitle() + " with id " + id + " remove");
+                log.info("Task " + task.getTitle() + " with id " + id + " remove");
                 return;
             }
         }
         System.out.println("Task with id " + id + " not found.");
+        log.info("Task with id " + id + " not found.");
     }
 
     @Override
     public void changeTask(AbstractTaskList taskList) throws IOException {
         System.out.println("Enter id task to change (0 - cancel): ");
-        long id = Long.parseLong(reader.readLine());
+        long id = getIDTask();
+
         if (id == 0) {
             return;
         }
@@ -186,10 +189,12 @@ public class ConsoleView implements View {
                     }
                 }
                 System.out.println("Task with id " + id + " changed " + changeType + " on " + result);
+                log.info("Task with id " + id + " changed " + changeType + " on " + result);
                 return;
             }
         }
         System.out.println("Task with id " + id + " not found.");
+        log.info("Task with id " + id + " not found.");
     }
 
     @Override
@@ -200,7 +205,8 @@ public class ConsoleView implements View {
         try {
             reader.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error IO");
+            log.error("Error IO: " + e.getMessage());
         }
     }
 
@@ -229,11 +235,6 @@ public class ConsoleView implements View {
         SortedMap<LocalDateTime, Set<Task>> sortedMap = Tasks.calendar(taskList, start, end);
         if (sortedMap.entrySet().size() == 0) {
             System.out.println("No one found task.");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             return;
         }
         System.out.println("Date                 | Task         ");
@@ -254,6 +255,22 @@ public class ConsoleView implements View {
         reader.readLine();
     }
 
+    private long getIDTask() {
+        long id = -1;
+        while (id == -1) {
+            try {
+                id = Long.parseLong(reader.readLine());
+            } catch (NumberFormatException e) {
+                log.error("Incorrectly enter format.");
+                System.out.println("Incorrectly enter format. Enter the whole number (0 - cancel): ");
+            } catch (IOException e) {
+                System.out.println("Error IO");
+                log.error("Error IO: " + e.getMessage());
+            }
+        }
+        return id;
+    }
+
     private LocalDateTime inputDate() {
         while (true) {
             try {
@@ -264,9 +281,19 @@ public class ConsoleView implements View {
                 return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
             } catch (DateTimeParseException e) {
                 System.out.println("Incorrectly format date. Enter correctly date (format: dd-MM-yyyy HH:mm:ss): ");
+                log.info("Incorrectly format date.");
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Error IO");
+                log.error("Error IO: " + e.getMessage());
             }
         }
+    }
+
+    /**
+     * @param message to be show to user
+     */
+    @Override
+    public void showMessage(String message) {
+        System.out.println(message);
     }
 }
