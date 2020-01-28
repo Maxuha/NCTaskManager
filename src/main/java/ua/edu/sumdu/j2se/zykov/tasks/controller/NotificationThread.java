@@ -77,6 +77,7 @@ public class NotificationThread extends Thread {
                             }
                             lastTask = task;
                             lastTask.setTime(time);
+                            log.info("Alert about " + task.getTitle());
                         }
                     }
                 }

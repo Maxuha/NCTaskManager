@@ -47,7 +47,7 @@ public class ConsoleController extends Controller {
                     TaskIO.writeText(taskList, new File("tasks.json"));
                     log.info("Saved tasks.json file.");
                 } catch (IOException e) {
-                    log.error("Failed to save file.");
+                    log.error("Failed to save tasks.json file.");
                 }
                 System.exit(0);
                 break;
