@@ -131,7 +131,7 @@ public abstract class Controller {
 
     private void backMenu() {
         try {
-            Thread.sleep(1500);
+            Thread.sleep(1000);
             log.info("Sleep successfully.");
         } catch (InterruptedException e) {
             System.out.println("Error. Redirect to main menu.");
