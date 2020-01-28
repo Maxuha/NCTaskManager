@@ -1,11 +1,14 @@
 package ua.edu.sumdu.j2se.zykov.tasks.view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class NotificationTelegram extends TelegramLongPollingBot implements Notification {
+    private static final Logger log = LoggerFactory.getLogger(NotificationTelegram.class);
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -37,7 +40,7 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
         try {
             sendMessage(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Failed to send message.");
         }
     }
 }
