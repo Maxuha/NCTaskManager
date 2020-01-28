@@ -48,6 +48,9 @@ public abstract class Controller {
         try {
             log.info("Opening add task menu...");
             Task task = view.addTask();
+            if (task == null) {
+                throw new NullPointerException();
+            }
             taskList.add(task);
             log.info("Task " + task.getTitle() + " added.");
         } catch (IOException e) {
