@@ -15,11 +15,10 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
     private static final Logger log = LoggerFactory.getLogger(NotificationTelegram.class);
 
     private String token;
-    private static final Logger log = LoggerFactory.getLogger(NotificationTelegram.class);
 
     public NotificationTelegram() {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("token_telegram_bot.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("token_telegram_bot.txt.secret"));
             token = reader.readLine();
             reader.close();
         } catch (IOException e) {
