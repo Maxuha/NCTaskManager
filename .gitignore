@@ -9,4 +9,5 @@
 !*.secret
 =======
 /key.txt
+/telegram_token_bot.txt
 >>>>>>> Stashed changes
