@@ -3,6 +3,10 @@
 /META-INF/
 /target/
 /NCTaskManager.iml
+<<<<<<< Updated upstream
 /logger/
 .gitsecret/keys/random_seed
 !*.secret
+=======
+/key.txt
+>>>>>>> Stashed changes
