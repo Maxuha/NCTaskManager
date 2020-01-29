@@ -5,7 +5,6 @@ import java.util.*;
 
 public class Tasks {
     /**
-     *
      * @param start is from date
      * @param end is to date
      * @return object is array task from date to date
@@ -26,6 +25,12 @@ public class Tasks {
         return taskList;
     }
 
+    /**
+     * @param tasks - list tasks for analysis
+     * @param start - start time
+     * @param end - finish time
+     * @return time and related tasks to complete
+     */
     public static SortedMap<LocalDateTime, Set<Task>> calendar(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
         Iterable<Task> iterable = incoming(tasks, start, end);
         Iterator<Task> iterator = iterable.iterator();

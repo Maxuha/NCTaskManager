@@ -10,11 +10,23 @@ import java.io.File;
 import java.io.IOException;
 
 public class ConsoleController extends Controller {
+    /**
+     * log is link on logger this class
+      */
     private static final Logger log = LoggerFactory.getLogger(ConsoleController.class.getName());
+
+    /**
+     * @param view - view port (type view). Example: ConsoleView, WebView etc
+     * @param taskList - sheet of tasks required for processing
+     */
     public ConsoleController(View view, AbstractTaskList taskList) {
         super(view, taskList);
     }
 
+    /**
+     * @param actions enum type of task
+     * run action
+     */
     @Override
     public void process(Actions actions) {
         switch (actions) {

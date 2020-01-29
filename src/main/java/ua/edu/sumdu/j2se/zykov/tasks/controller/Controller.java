@@ -14,12 +14,24 @@ import ua.edu.sumdu.j2se.zykov.tasks.view.View;
 import java.io.IOException;
 
 public abstract class Controller {
+
+    /**
+     * log - link on logger this class
+     * view - view port
+     * taskList - current list tasks
+     * action - current type task
+     * notificationThread - second thread of notification
+     */
     private static final Logger log = LoggerFactory.getLogger(Controller.class);
     protected View view;
     protected AbstractTaskList taskList;
     protected int action = -1;
     protected NotificationThread notificationThread;
 
+    /**
+     * @param view - view port
+     * @param taskList - current list tasks
+     */
     public Controller(View view, AbstractTaskList taskList) {
         this.view = view;
         this.taskList = taskList;
@@ -42,8 +54,15 @@ public abstract class Controller {
         log.info("Notification is running.");
     }
 
+    /**
+     * @param actions enum type of task
+     * run action
+     */
     public abstract void process(Actions actions);
 
+    /**
+     *  add new task in taskList and set current taskList in notification thread
+     */
     public void addTask() {
         try {
             log.info("Opening add task menu...");
@@ -65,6 +84,9 @@ public abstract class Controller {
         log.info("Set new task list in notification thread.");
     }
 
+    /**
+     * remove task of taskList and set current taskList in notification thread
+     */
     public void removeTask() {
         try {
             log.info("Opening remove task menu...");
@@ -78,6 +100,9 @@ public abstract class Controller {
         log.info("Set new task list in notification thread.");
     }
 
+    /**
+     * change task in taskList and set current taskList in notification thread
+     */
     public void changeTask() {
         try {
             log.info("Opening change menu...");
@@ -91,12 +116,18 @@ public abstract class Controller {
         log.info("Set new task list in notification thread.");
     }
 
+    /**
+     * show all tasks
+     */
     public void showTasks() {
         log.info("Opening show tasks menu");
         view.showTasks(taskList);
         mainMenu();
     }
 
+    /**
+     * show calendar
+     */
     public void calendar() {
         try {
             log.info("Opening calendar...");
@@ -108,6 +139,9 @@ public abstract class Controller {
         mainMenu();
     }
 
+    /**
+     * show main menu
+     */
     public void mainMenu() {
         log.info("Opening main menu...");
         view.mainMenu();

@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class NotificationTelegram extends TelegramLongPollingBot implements Notification {
+    private static final Logger log = LoggerFactory.getLogger(NotificationTelegram.class);
 
     private String token;
     private static final Logger log = LoggerFactory.getLogger(NotificationTelegram.class);
@@ -56,7 +57,7 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
         try {
             sendMessage(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Failed to send message.");
         }
     }
 }

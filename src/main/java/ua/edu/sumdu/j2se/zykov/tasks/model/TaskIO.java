@@ -8,6 +8,12 @@ import java.time.ZoneOffset;
 
 public class TaskIO {
 
+    /**
+     * DEPRECATED
+     * @param tasks - list task to save
+     * @param out - output consumer
+     * read task in listTask of file
+     */
     @Deprecated
     public static void write(AbstractTaskList tasks, OutputStream out) {
         int size;
@@ -55,6 +61,12 @@ public class TaskIO {
         }
     }
 
+    /**
+     * DEPRECATED
+     * @param tasks - which sheet to load from the file
+     * @param in - input source
+     * read in tasks of file
+     */
     @Deprecated
     public static void read(AbstractTaskList tasks, InputStream in) throws IOException {
         int size;
@@ -107,6 +119,12 @@ public class TaskIO {
         }
     }
 
+    /**
+     * DEPRECATED
+     * @param tasks - list task to save
+     * @param file - file consumer
+     * read task in listTask of file (Binary format)
+     */
     @Deprecated
     public static void writeBinary(AbstractTaskList tasks, File file) throws IOException {
         int size;
@@ -150,6 +168,12 @@ public class TaskIO {
         }
     }
 
+    /**
+     * DEPRECATED
+     * @param tasks - which sheet to load from the file
+     * @param file - file source
+     * read in tasks of file (Binary format)
+     */
     @Deprecated
     public static void readBinary(AbstractTaskList tasks, File file) throws IOException {
         int size;
@@ -202,12 +226,23 @@ public class TaskIO {
         }
     }
 
+
+    /**
+     * @param tasks - list task to save
+     * @param out - output consumer
+     * read task in listTask of file (Json format)
+     */
     public static void write(AbstractTaskList tasks, Writer out) throws IOException {
         Gson gson = new Gson();
         out.write(gson.toJson(tasks, tasks.getClass()));
         out.close();
     }
 
+    /**
+     * @param tasks - which sheet to load from the file
+     * @param in - input source
+     * read in tasks of file (Json format)
+     */
     public static void read(AbstractTaskList tasks, Reader in) throws IOException {
         Gson gson = new Gson();
         AbstractTaskList tasksFrom;
@@ -222,6 +257,11 @@ public class TaskIO {
         in.close();
     }
 
+    /**
+     * @param tasks - list task to save
+     * @param out - file consumer
+     * read task in listTask of file (Json format)
+     */
     public static void writeText(AbstractTaskList tasks, File out) throws IOException {
         Gson gson = new Gson();
         FileWriter writer = new FileWriter(out);
@@ -229,6 +269,11 @@ public class TaskIO {
         writer.close();
     }
 
+    /**
+     * @param tasks - which sheet to load from the file
+     * @param in - file source
+     * read in tasks of file (Json format)
+     */
     public static void readText(AbstractTaskList tasks, File in) throws IOException {
         Gson gson = new Gson();
         FileReader fileReader = new FileReader(in);

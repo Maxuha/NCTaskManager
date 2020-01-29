@@ -6,6 +6,9 @@ import java.util.stream.Stream;
 
 public abstract class AbstractTaskList implements Iterable<Task>, Serializable {
 
+    /**
+     * count is count tasks in list
+     */
     protected int count;
 
     /**
