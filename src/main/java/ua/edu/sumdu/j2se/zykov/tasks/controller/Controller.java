@@ -48,7 +48,6 @@ public abstract class Controller {
         } catch (IllegalArgumentException e) {
             log.error("Incorrectly format telegram token.");
             System.out.println("Incorrectly format telegram token. Decrypt token and try again.");
-        }
         notificationThread = new NotificationThread(taskList);
         NotificationConsole notificationConsole = new NotificationConsole();
         notificationThread.register(notificationTelegram);
