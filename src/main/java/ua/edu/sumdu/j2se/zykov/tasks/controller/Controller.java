@@ -43,8 +43,11 @@ public abstract class Controller {
             telegramBotsApi.registerBot(notificationTelegram);
             log.info("Telegram bot is running.");
         } catch (TelegramApiRequestException e) {
-            log.error("Error run telegram bot: " + e.getMessage());
-        }
+            log.error("Error run telegram bot.");
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            log.error("Incorrectly format telegram token.");
+            System.out.println("Incorrectly format telegram token. Decrypt token and try again.");
         notificationThread = new NotificationThread(taskList);
         NotificationConsole notificationConsole = new NotificationConsole();
         notificationThread.register(notificationTelegram);

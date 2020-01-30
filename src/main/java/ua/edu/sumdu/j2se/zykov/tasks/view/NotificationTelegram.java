@@ -26,9 +26,6 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
                log.warn("Failed read token or chatID from file: " + e.getMessage());
         } catch (NumberFormatException e) {
             log.warn("File chatID is empty.");
-        } catch (IllegalArgumentException e) {
-            log.error("Incorrectly format telegram token.");
-            System.out.println("Incorrectly format telegram token. Decrypt token and try again.");
         }
     }
 
