@@ -7,28 +7,38 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class NotificationTelegram extends TelegramLongPollingBot implements Notification {
     private static final Logger log = LoggerFactory.getLogger(NotificationTelegram.class);
 
     private String token;
+    private long chatID;
 
     public NotificationTelegram() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("token_telegram_bot.txt.secret"));
             token = reader.readLine();
+            reader = new BufferedReader(new FileReader("chatID.txt"));
+            chatID = Long.parseLong(reader.readLine());
             reader.close();
         } catch (IOException e) {
-               log.error("Failed read token from file: " + e.getMessage());
+               log.error("Failed read token or chatID from file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            log.info("File chatID is empty.");
         }
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-        String message = update.getMessage().getText();
+        chatID = update.getMessage().getChatId();
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("chatID.txt"));
+            writer.write(chatID + "");
+            writer.close();
+        } catch (IOException e) {
+            log.error("Failed save chatID to file: " + e.getMessage());
+        }
     }
 
     @Override
@@ -50,7 +60,6 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
     public synchronized void sendMsg(String s) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        String chatID = "593292108";
         sendMessage.setChatId(chatID);
         sendMessage.setText(s);
         try {
