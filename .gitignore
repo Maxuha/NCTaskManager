@@ -3,13 +3,10 @@
 /META-INF/
 /target/
 /NCTaskManager.iml
-<<<<<<< Updated upstream
+/key.txt
+/telegram_token_bot.txt
 /logger/
 .gitsecret/keys/random_seed
 !*.secret
-=======
-/key.txt
-/telegram_token_bot.txt
->>>>>>> Stashed changes
 /token_telegram_bot.txt.secret
 /tasks.json
