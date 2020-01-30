@@ -31,8 +31,7 @@ public abstract class Controller {
             telegramBotsApi.registerBot(notificationTelegram);
             log.info("Telegram bot is running.");
         } catch (TelegramApiRequestException e) {
-            log.error("Error run telegram bot.");
-            e.printStackTrace();
+            log.error("Error run telegram bot: " + e.getMessage());
         }
         notificationThread = new NotificationThread(taskList);
         NotificationConsole notificationConsole = new NotificationConsole();
