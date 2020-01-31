@@ -1,1 +1,1 @@
-In order for the notification to come in telegrams, you need to start the bot. To do this, go to the address: https://web.telegram.org/#/im?p=@Task_manager_new_bot or find the bot by its name: task_manage_new_bot
+In order for the notification to come in telegrams, you need to start the bot. To do this, go to the address: https://web.telegram.org/#/im?p=@Task_manager_new_bot or find the bot by its name: task_manage_new_bot. Также добавьте файл "token_telegram_bot.txt.secret" с расшифрованным токеном в корень с jar файлам.
