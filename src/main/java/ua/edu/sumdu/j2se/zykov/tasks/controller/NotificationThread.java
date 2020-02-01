@@ -70,12 +70,15 @@ public class NotificationThread extends Thread {
                     sec = (time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000)
                             - (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000);
                     if (sec <= 180) {
-                        time = time.minusSeconds(sec);
-                        if (lastTask == null || time.isAfter(lastTask.getTime())) {
+                        if (lastTask == null || time.minusSeconds(sec).isAfter(lastTask.getTime())) {
                             for (Notification notification : notifications) {
                                 notification.display(sec, task.getTitle());
                             }
-                            lastTask = task;
+                            try {
+                                lastTask = task.clone();
+                            } catch (CloneNotSupportedException e) {
+                                log.error("Failed clone task.");
+                            }
                             lastTask.setTime(time);
                             log.info("Alert about " + task.getTitle());
                         }
