@@ -18,11 +18,13 @@
 
     </Appenders>
     <Loggers>
-        <Root level="info">
-            <AppenderRef ref="RollingFile" />
-        </Root>
         <Root level="error">
             <AppenderRef ref="Console" />
+
+        </Root>
+
+        <Root level="info">
+            <AppenderRef ref="RollingFile" />
         </Root>
 
     </Loggers>
