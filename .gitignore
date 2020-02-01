@@ -9,4 +9,5 @@
 .gitsecret/keys/random_seed
 !*.secret
 /token_telegram_bot.txt.secret
+/token_telegram_bot.txt
 /tasks.json
