@@ -17,13 +17,13 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
 
     public NotificationTelegram() {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("token_telegram_bot.txt.secret"));
+            BufferedReader reader = new BufferedReader(new FileReader("token_telegram_bot.txt"));
             token = reader.readLine();
             reader = new BufferedReader(new FileReader("chatID.txt"));
             chatID = Long.parseLong(reader.readLine());
             reader.close();
         } catch (IOException e) {
-               log.warn("Failed read token or chatID from file: " + e.getMessage());
+            log.warn("Failed read token or chatID from file: " + e.getMessage());
         } catch (NumberFormatException e) {
             log.warn("File chatID is empty.");
         }
