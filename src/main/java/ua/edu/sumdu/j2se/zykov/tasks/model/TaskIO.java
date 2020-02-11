@@ -24,9 +24,8 @@ public class TaskIO {
         int repeatInterval;
         long start;
         long end;
-        DataOutputStream data = new DataOutputStream(out);
-        size = tasks.size();
-        try {
+        try (DataOutputStream data = new DataOutputStream(out)) {
+            size = tasks.size();
             data.writeInt(size);
             for (Task task : tasks) {
                 id = task.getId();
@@ -52,12 +51,6 @@ public class TaskIO {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                data.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -72,38 +65,37 @@ public class TaskIO {
         int size;
         long id;
         int nameLength;
-        String name;
-        String isActive;
+        StringBuilder name;
+        StringBuilder isActive;
         int repeatInterval;
         long start;
         long end;
-        DataInputStream data = new DataInputStream(in);
-        boolean isActiveBoolean;
-        LocalDateTime startTime;
-        LocalDateTime endTime;
-        Task task;
-        try {
+        try (DataInputStream data = new DataInputStream(in)) {
+            boolean isActiveBoolean;
+            LocalDateTime startTime;
+            LocalDateTime endTime;
+            Task task;
             size = data.readInt();
             for (int i = 0; i < size; i++) {
-                name = "";
-                isActive = "";
+                name = new StringBuilder();
+                isActive = new StringBuilder();
                 id = data.readLong();
                 nameLength = data.readInt();
                 for (int j = 0; j < nameLength; j++) {
-                    name += data.readChar();
+                    name.append(data.readChar());
                 }
                 for (int j = 0; j < 13; j++) {
-                    isActive += data.readChar();
+                    isActive.append(data.readChar());
                 }
                 repeatInterval = data.readInt();
                 start = data.readLong();
-                if (isActive.equals("Активність: 1")) {
+                if (isActive.toString().equals("Активність: 1")) {
                     isActiveBoolean = true;
                 } else {
                     isActiveBoolean = false;
                 }
                 startTime = LocalDateTime.ofEpochSecond(start, 0, ZoneOffset.UTC);
-                task = new Task(id, name, startTime);
+                task = new Task(id, name.toString(), startTime);
                 task.setActive(isActiveBoolean);
                 if (repeatInterval != 0) {
                     end = data.readLong();
@@ -114,8 +106,6 @@ public class TaskIO {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            data.close();
         }
     }
 
@@ -135,14 +125,14 @@ public class TaskIO {
         int repeatInterval;
         long start;
         long end;
-        DataOutputStream data = new DataOutputStream(new FileOutputStream(file));
-        size = tasks.size();
-        try {
+        try (DataOutputStream data = new DataOutputStream(new FileOutputStream(file))) {
+            size = tasks.size();
             data.writeInt(size);
             for (Task task : tasks) {
                 id = task.getId();
                 name = task.getTitle();
-                nameLength = name.length();;
+                nameLength = name.length();
+                ;
                 if (task.isActive()) {
                     isActive = "Активність: 1";
                 } else {
@@ -163,8 +153,6 @@ public class TaskIO {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            data.close();
         }
     }
 
@@ -179,38 +167,37 @@ public class TaskIO {
         int size;
         long id;
         int nameLength;
-        String name;
-        String isActive;
+        StringBuilder name;
+        StringBuilder isActive;
         int repeatInterval;
         long start;
         long end;
-        DataInputStream data = new DataInputStream(new FileInputStream(file));
-        boolean isActiveBoolean;
-        LocalDateTime startTime;
-        LocalDateTime endTime;
-        Task task;
-        try {
+        try (DataInputStream data = new DataInputStream(new FileInputStream(file))) {
+            boolean isActiveBoolean;
+            LocalDateTime startTime;
+            LocalDateTime endTime;
+            Task task;
             size = data.readInt();
             for (int i = 0; i < size; i++) {
-                name = "";
-                isActive = "";
+                name = new StringBuilder();
+                isActive = new StringBuilder();
                 id = data.readLong();
                 nameLength = data.readInt();
                 for (int j = 0; j < nameLength; j++) {
-                    name += data.readChar();
+                    name.append(data.readChar());
                 }
                 for (int j = 0; j < 13; j++) {
-                    isActive += data.readChar();
+                    isActive.append(data.readChar());
                 }
                 repeatInterval = data.readInt();
                 start = data.readLong();
-                if (isActive.equals("Активність: 1")) {
+                if (isActive.toString().equals("Активність: 1")) {
                     isActiveBoolean = true;
                 } else {
                     isActiveBoolean = false;
                 }
                 startTime = LocalDateTime.ofEpochSecond(start, 0, ZoneOffset.UTC);
-                task = new Task(id, name, startTime);
+                task = new Task(id, name.toString(), startTime);
                 task.setActive(isActiveBoolean);
                 if (repeatInterval != 0) {
                     end = data.readLong();
@@ -221,8 +208,6 @@ public class TaskIO {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            data.close();
         }
     }
 
