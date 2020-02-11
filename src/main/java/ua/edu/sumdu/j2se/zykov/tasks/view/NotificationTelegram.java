@@ -3,6 +3,7 @@ package ua.edu.sumdu.j2se.zykov.tasks.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -25,19 +26,23 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
         } catch (IOException e) {
             log.warn("Failed read token or chatID from file: " + e.getMessage());
         } catch (NumberFormatException e) {
+            chatID = 0;
             log.warn("File chatID is empty.");
         }
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-        chatID = update.getMessage().getChatId();
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("chatID.txt"));
-            writer.write(chatID + "");
-            writer.close();
-        } catch (IOException e) {
-            log.error("Failed save chatID to file: " + e.getMessage());
+        Message message = update.getMessage();
+        if (chatID == 0 && "/start".equals(message.getText())) {
+            chatID = update.getMessage().getChatId();
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter("chatID.txt"));
+                writer.write(chatID + "");
+                writer.close();
+            } catch (IOException e) {
+                log.error("Failed save chatID to file: " + e.getMessage());
+            }
         }
     }
 
