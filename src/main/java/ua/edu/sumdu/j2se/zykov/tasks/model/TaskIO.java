@@ -1,12 +1,15 @@
 package ua.edu.sumdu.j2se.zykov.tasks.model;
 
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class TaskIO {
+    private final static Logger logger = LoggerFactory.getLogger(TaskIO.class);
 
     /**
      * DEPRECATED
@@ -239,11 +242,25 @@ public class TaskIO {
      * @param out - file consumer
      * read task in listTask of file (Json format)
      */
-    public static void writeText(AbstractTaskList tasks, File out) throws IOException {
+    public static void writeText(AbstractTaskList tasks, File out) {
         Gson gson = new Gson();
-        FileWriter writer = new FileWriter(out);
-        writer.write(gson.toJson(tasks, tasks.getClass()));
-        writer.close();
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(out);
+            writer.write(gson.toJson(tasks, tasks.getClass()));
+            logger.info("Saved tasks.json file.");
+        } catch (IOException e) {
+            logger.error("Failed to save tasks.json file.");
+        }
+       finally {
+            try {
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                logger.error("Failed to close tasks.json file");
+            }
+        }
     }
 
     /**
@@ -251,18 +268,32 @@ public class TaskIO {
      * @param in - file source
      * read in tasks of file (Json format)
      */
-    public static void readText(AbstractTaskList tasks, File in) throws IOException {
+    public static void readText(AbstractTaskList tasks, File in) {
         Gson gson = new Gson();
-        FileReader fileReader = new FileReader(in);
-        AbstractTaskList tasksFrom;
-        if (tasks.getClass().equals(ArrayTaskList.class)) {
-            tasksFrom = gson.fromJson(fileReader, ArrayTaskList.class);
-        } else {
-            tasksFrom = gson.fromJson(fileReader, LinkedTaskList.class);
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(in);
+            AbstractTaskList tasksFrom;
+            if (tasks.getClass().equals(ArrayTaskList.class)) {
+                tasksFrom = gson.fromJson(fileReader, ArrayTaskList.class);
+            } else {
+                tasksFrom = gson.fromJson(fileReader, LinkedTaskList.class);
+            }
+            for (Task task : tasksFrom) {
+                tasks.add(task);
+            }
+            logger.info("Loaded tasks.json file");
+        } catch (FileNotFoundException e) {
+            logger.error("Failed to load tasks.json file");
         }
-        for (Task task : tasksFrom) {
-            tasks.add(task);
+        finally {
+            if (fileReader != null) {
+                try {
+                    fileReader.close();
+                } catch (IOException e) {
+                    logger.error("Failed to close tasks.json file");
+                }
+            }
         }
-        fileReader.close();
     }
 }
