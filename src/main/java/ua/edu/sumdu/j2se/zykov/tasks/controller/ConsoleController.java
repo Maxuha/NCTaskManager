@@ -43,12 +43,7 @@ public class ConsoleController extends Controller {
             case CALENDAR: calendar();
                 break;
             case FINISH:
-                try {
-                    TaskIO.writeText(taskList, new File("tasks.json"));
-                    log.info("Saved tasks.json file.");
-                } catch (IOException e) {
-                    log.error("Failed to save tasks.json file.");
-                }
+                TaskIO.writeText(taskList, new File("tasks.json"));
                 System.exit(0);
                 break;
         }

@@ -25,12 +25,7 @@ public class Main {
     public static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(Main.class);
         AbstractTaskList taskList = new ArrayTaskList();
-        try {
-            TaskIO.readText(taskList, new File("tasks.json"));
-            logger.info("Loaded tasks.json file");
-        } catch (IOException e) {
-            logger.error("Failed to load tasks.json file");
-        }
+        TaskIO.readText(taskList, new File("tasks.json"));
         View view = new ConsoleView();
         Controller controller = new ConsoleController(view, taskList);
         controller.process(Actions.MAIN_MENU);
