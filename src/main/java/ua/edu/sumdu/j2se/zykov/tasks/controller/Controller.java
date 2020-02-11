@@ -6,6 +6,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.zykov.tasks.model.Paths;
 import ua.edu.sumdu.j2se.zykov.tasks.model.Task;
 import ua.edu.sumdu.j2se.zykov.tasks.model.TaskIO;
 import ua.edu.sumdu.j2se.zykov.tasks.view.NotificationConsole;
@@ -87,7 +88,7 @@ public abstract class Controller {
         backMenu();
         notificationThread.setTaskList(taskList);
         log.info("Set new task list in notification thread.");
-        TaskIO.writeText(taskList, new File("tasks.json"));
+        TaskIO.writeText(taskList, new File(Paths.pathTasks));
     }
 
     /**
@@ -104,7 +105,7 @@ public abstract class Controller {
         backMenu();
         notificationThread.setTaskList(taskList);
         log.info("Set new task list in notification thread.");
-        TaskIO.writeText(taskList, new File("tasks.json"));
+        TaskIO.writeText(taskList, new File(Paths.pathTasks));
     }
 
     /**
@@ -121,7 +122,7 @@ public abstract class Controller {
         backMenu();
         notificationThread.setTaskList(taskList);
         log.info("Set new task list in notification thread.");
-        TaskIO.writeText(taskList, new File("tasks.json"));
+        TaskIO.writeText(taskList, new File(Paths.pathTasks));
     }
 
     /**

@@ -7,6 +7,7 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+import ua.edu.sumdu.j2se.zykov.tasks.model.Paths;
 
 import java.io.*;
 
@@ -18,9 +19,9 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
 
     public NotificationTelegram() {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("token_telegram_bot.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader(Paths.pathToken));
             token = reader.readLine();
-            reader = new BufferedReader(new FileReader("chatID.txt"));
+            reader = new BufferedReader(new FileReader(Paths.pathChatId));
             chatID = Long.parseLong(reader.readLine());
             reader.close();
         } catch (IOException e) {
@@ -37,7 +38,7 @@ public class NotificationTelegram extends TelegramLongPollingBot implements Noti
         if (chatID == 0 && "/start".equals(message.getText())) {
             chatID = update.getMessage().getChatId();
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("chatID.txt"));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.pathChatId));
                 writer.write(chatID + "");
                 writer.close();
             } catch (IOException e) {
