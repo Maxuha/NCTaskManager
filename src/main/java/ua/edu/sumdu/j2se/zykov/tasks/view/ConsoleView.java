@@ -80,6 +80,11 @@ public class ConsoleView implements View {
             if (endTime == null) {
                 return null;
             }
+            while (endTime.isBefore(startTime)) {
+                System.out.println("The end of time should be after the start. Enter the time that comes after the start of time: ");
+                log.info("Еhe end of time should be after the start.");
+                endTime = inputDate();
+            }
             System.out.println("Enter repeat interval(in seconds): ");
             int interval = Integer.parseInt(reader.readLine());
             task = new Task(System.currentTimeMillis(), title, startTime, endTime, interval);
@@ -195,6 +200,11 @@ public class ConsoleView implements View {
                             dateTime = inputDate();
                             if (dateTime == null) {
                                 return;
+                            }
+                            while (dateTime.isBefore(task.getEndTime())) {
+                                System.out.println("Еhe end of time should be after the start. Enter the time that comes after the start of time: ");
+                                log.info("The end of time should be after the start.");
+                                dateTime = inputDate();
                             }
                             task.setTime(task.getStartTime(), dateTime, task.getRepeatInterval());
                             changeType = ChangeType.END_TIME;
