@@ -3,6 +3,7 @@ package ua.edu.sumdu.j2se.zykov.tasks.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.edu.sumdu.j2se.zykov.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.zykov.tasks.model.Paths;
 import ua.edu.sumdu.j2se.zykov.tasks.model.TaskIO;
 import ua.edu.sumdu.j2se.zykov.tasks.view.View;
 
@@ -43,7 +44,7 @@ public class ConsoleController extends Controller {
             case CALENDAR: calendar();
                 break;
             case FINISH:
-                TaskIO.writeText(taskList, new File("tasks.json"));
+                TaskIO.writeText(taskList, new File(Paths.pathTasks));
                 System.exit(0);
                 break;
         }
