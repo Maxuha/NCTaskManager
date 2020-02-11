@@ -89,11 +89,7 @@ public class TaskIO {
                 }
                 repeatInterval = data.readInt();
                 start = data.readLong();
-                if (isActive.toString().equals("Активність: 1")) {
-                    isActiveBoolean = true;
-                } else {
-                    isActiveBoolean = false;
-                }
+                isActiveBoolean = isActive.toString().equals("Активність: 1");
                 startTime = LocalDateTime.ofEpochSecond(start, 0, ZoneOffset.UTC);
                 task = new Task(id, name.toString(), startTime);
                 task.setActive(isActiveBoolean);
@@ -191,11 +187,7 @@ public class TaskIO {
                 }
                 repeatInterval = data.readInt();
                 start = data.readLong();
-                if (isActive.toString().equals("Активність: 1")) {
-                    isActiveBoolean = true;
-                } else {
-                    isActiveBoolean = false;
-                }
+                isActiveBoolean = isActive.toString().equals("Активність: 1");
                 startTime = LocalDateTime.ofEpochSecond(start, 0, ZoneOffset.UTC);
                 task = new Task(id, name.toString(), startTime);
                 task.setActive(isActiveBoolean);
